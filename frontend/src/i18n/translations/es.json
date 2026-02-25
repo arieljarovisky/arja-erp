@@ -92,15 +92,18 @@
     "serviceSelectionHeaderHint": "Título al mostrar la lista de servicios",
     "instructorSelectionBody": "Cuerpo - Selección de profesional",
     "instructorSelectionBodyHint": "Texto al mostrar la lista de profesionales/instructores",
-    "saveChangesNote": "Los cambios se guardarán junto con el resto de la configuración usando el botón \"Guardar Cambios\" arriba"
-    ,"refreshPhoneId": "Refrescar Phone ID"
-    ,"refreshingPhoneId": "Refrescando…"
-    ,"oauthConnectedMessage": "OAuth conectado exitosamente. Ingresá tu número de WhatsApp y guardalo. Luego podés activar el asistente cuando lo necesites."
-    ,"connectOneClick": "Conectá tu cuenta de WhatsApp Business con un solo clic."
-    ,"connectedSuccessTitle": "¡WhatsApp Business conectado exitosamente!"
-    ,"connectedSuccessDescription": "Ahora ingresá tu número de WhatsApp y hacé clic en 'Guardar número' para activar el asistente."
-    ,"oauthConnectedButNoBusinessTitle": "OAuth conectado, pero falta configurar WhatsApp Business"
-    ,"oauthConnectedButNoBusinessDescription": "El token OAuth se guardó correctamente, pero tu Empresa aún no tiene una cuenta de WhatsApp Business. Podés configurarla en Meta Business Manager. El sistema intentará obtener el Phone Number ID automáticamente cuando guardes el número de WhatsApp."
+    "saveChangesNote": "Los cambios se guardarán junto con el resto de la configuración usando el botón \"Guardar Cambios\" arriba",
+    "phoneNumberIdLabel": "Phone Number ID",
+    "phoneNumberIdHint": "ID del número de WhatsApp Business. Lo encontrás en Meta Business Manager > WhatsApp > Configuración de API > ID del número de teléfono",
+    "phoneNumberIdRequired": "El Phone Number ID es requerido para enviar mensajes. Encontralo en Meta Business Manager.",
+    "refreshPhoneId": "Refrescar Phone ID",
+    "refreshingPhoneId": "Refrescando…",
+    "oauthConnectedMessage": "OAuth conectado exitosamente. Ingresá tu número de WhatsApp, el Phone Number ID y guardá los cambios.",
+    "connectOneClick": "Conectá tu cuenta de WhatsApp Business con un solo clic.",
+    "connectedSuccessTitle": "¡WhatsApp Business conectado exitosamente!",
+    "connectedSuccessDescription": "Ahora ingresá tu número de WhatsApp, el Phone Number ID y hacé clic en 'Guardar Cambios'.",
+    "oauthConnectedButNoBusinessTitle": "OAuth conectado correctamente",
+    "oauthConnectedButNoBusinessDescription": "El token OAuth se guardó correctamente. Ahora ingresá tu número de WhatsApp y el Phone Number ID que encontrás en Meta Business Manager."
     ,"cantStartConnection": "No se pudo iniciar la conexión con WhatsApp Business"
     ,"cantGenerateAuthUrl": "No se pudo generar la URL de autorización"
     ,"disconnectConfirm": "¿Estás seguro de desconectar WhatsApp Business? Se eliminarán todas las credenciales y no podrás enviar mensajes hasta que vuelvas a conectar."

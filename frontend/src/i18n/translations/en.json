@@ -92,15 +92,18 @@
     "serviceSelectionHeaderHint": "Title when showing the service list",
     "instructorSelectionBody": "Body - Professional selection",
     "instructorSelectionBodyHint": "Text when showing the list of professionals/instructors",
-    "saveChangesNote": "Changes will be saved together with the rest of the configuration using the \"Save Changes\" button above"
-    ,"refreshPhoneId": "Refresh Phone ID"
-    ,"refreshingPhoneId": "Refreshing…"
-    ,"oauthConnectedMessage": "OAuth connected successfully. Enter your WhatsApp number and save it. Then you can enable the assistant when needed."
-    ,"connectOneClick": "Connect your WhatsApp Business account with one click."
-    ,"connectedSuccessTitle": "WhatsApp Business connected successfully!"
-    ,"connectedSuccessDescription": "Now enter your WhatsApp number and click 'Save number' to enable the assistant."
-    ,"oauthConnectedButNoBusinessTitle": "OAuth connected, but WhatsApp Business not configured"
-    ,"oauthConnectedButNoBusinessDescription": "The OAuth token was saved correctly, but your Business does not have a WhatsApp Business account yet. You can configure it in Meta Business Manager. The system will try to fetch the Phone Number ID automatically when you save the WhatsApp number."
+    "saveChangesNote": "Changes will be saved together with the rest of the configuration using the \"Save Changes\" button above",
+    "phoneNumberIdLabel": "Phone Number ID",
+    "phoneNumberIdHint": "WhatsApp Business phone number ID. Find it in Meta Business Manager > WhatsApp > API Setup > Phone number ID",
+    "phoneNumberIdRequired": "Phone Number ID is required to send messages. Find it in Meta Business Manager.",
+    "refreshPhoneId": "Refresh Phone ID",
+    "refreshingPhoneId": "Refreshing…",
+    "oauthConnectedMessage": "OAuth connected successfully. Enter your WhatsApp number, Phone Number ID and save changes.",
+    "connectOneClick": "Connect your WhatsApp Business account with one click.",
+    "connectedSuccessTitle": "WhatsApp Business connected successfully!",
+    "connectedSuccessDescription": "Now enter your WhatsApp number, Phone Number ID and click 'Save Changes'.",
+    "oauthConnectedButNoBusinessTitle": "OAuth connected successfully",
+    "oauthConnectedButNoBusinessDescription": "The OAuth token was saved correctly. Now enter your WhatsApp number and the Phone Number ID found in Meta Business Manager."
     ,"cantStartConnection": "Could not start WhatsApp Business connection"
     ,"cantGenerateAuthUrl": "Could not generate authorization URL"
     ,"disconnectConfirm": "Are you sure you want to disconnect WhatsApp Business? All credentials will be removed and you will not be able to send messages until you reconnect."
@@ -121,9 +124,9 @@
       "openMetaLink": "Open Meta Business Manager",
       "step2": "Verify the phone number you will use in WhatsApp Business.",
       "step3": "Click “Connect” to authorize with Meta and save the token.",
-      "step4": "Enter the phone number in international format (+54911...) and save.",
-      "step5": "Enable the assistant and test a send from a confirmed appointment.",
-      "step6": "If the Phone Number ID is missing after OAuth, use “Refresh Phone ID”."
+      "step4": "Enter the phone number in international format (+54911...).",
+      "step5": "Enter the Phone Number ID (find it in Meta Business Manager > WhatsApp > API Setup).",
+      "step6": "Save changes, enable the assistant and test a send."
     },
     "statusPanel": {
       "readyLabel": "Integrated",

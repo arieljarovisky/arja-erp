@@ -812,7 +812,11 @@ export default function ConfigPage() {
     setSavingWhatsApp(true);
     try {
       const payload = { phoneDisplay };
-      // El phoneNumberId se obtiene automáticamente por el sistema, no se envía manualmente
+      // Incluir phoneNumberId si está configurado (ahora es manual)
+      const phoneNumberId = String(whatsappConfig.phoneNumberId || "").trim();
+      if (phoneNumberId) {
+        payload.phoneNumberId = phoneNumberId;
+      }
       // Incluir configuración del agente de soporte (siempre enviar, incluso si está vacío para poder limpiarlo)
       payload.supportAgentEnabled = whatsappConfig.supportAgentEnabled ?? false;
       // Asegurarse de que el número se envíe correctamente (trim y validar)
@@ -850,23 +854,6 @@ export default function ConfigPage() {
       
       // Asegurarse de que tenemos los datos correctos
       const data = response?.data || response || {};
-      
-      // Si hay OAuth token y no hay phoneNumberId, intentar obtenerlo automáticamente
-      // Nota: El backend ya intenta obtenerlo automáticamente, pero lo intentamos aquí también
-      // para asegurarnos de que esté disponible inmediatamente
-      if (data.hasOAuthToken && !data.phoneNumberId && !payload.phoneNumberId) {
-        try {
-          logger.log("[WhatsApp Config] Obteniendo Phone Number ID automáticamente...");
-          const phoneIdData = await apiClient.refreshWhatsAppPhoneId();
-          if (phoneIdData.ok && phoneIdData.data?.phoneNumberId) {
-            logger.log("[WhatsApp Config] Phone Number ID obtenido automáticamente:", phoneIdData.data.phoneNumberId);
-            data.phoneNumberId = phoneIdData.data.phoneNumberId;
-          }
-        } catch (error) {
-          logger.warn("[WhatsApp Config] No se pudo obtener Phone Number ID automáticamente:", error);
-          // Continuar sin el phoneNumberId, el backend lo intentará obtener
-        }
-      }
       
       const normalized = {
         phoneDisplay: data.phoneDisplay ?? phoneDisplay,
@@ -2326,20 +2313,34 @@ export default function ConfigPage() {
                         />
                       </FieldGroup>
 
-                      {/* Phone Number ID - Oculto, se maneja automáticamente por el sistema */}
+                      {/* Phone Number ID - Campo manual requerido */}
+                      {whatsappConfig.hasOAuthToken && (
+                        <div className="mt-4">
+                          <FieldGroup
+                            label={t("whatsapp.phoneNumberIdLabel")}
+                            hint={t("whatsapp.phoneNumberIdHint")}
+                          >
+                            <input
+                              type="text"
+                              value={whatsappConfig.phoneNumberId || ""}
+                              onChange={(e) => {
+                                setWhatsappConfig((prev) => ({ ...prev, phoneNumberId: e.target.value }));
+                              }}
+                              className="input w-full text-base font-medium tracking-wide font-mono"
+                              placeholder="123456789012345"
+                            />
+                          </FieldGroup>
+                          {!whatsappConfig.phoneNumberId && (
+                            <p className="text-xs text-amber-400 mt-2 flex items-center gap-1">
+                              <span>⚠️</span>
+                              {t("whatsapp.phoneNumberIdRequired")}
+                            </p>
+                          )}
+                        </div>
+                      )}
 
                       {/* Botón de Desconectar */}
                       <div className="mt-6 pt-4 border-t border-border/40">
-                        {(whatsappConfig.hasOAuthToken && !whatsappConfig.phoneNumberId) && (
-                          <Button 
-                            onClick={handleRefreshPhoneId} 
-                            disabled={refreshingPhoneId || connectingWhatsApp || savingWhatsApp || saving} 
-                            variant="secondary"
-                            className="mr-3"
-                          >
-                            {refreshingPhoneId ? t("whatsapp.refreshingPhoneId") : t("whatsapp.refreshPhoneId")}
-                          </Button>
-                        )}
                         <Button 
                           onClick={handleDisconnectWhatsApp} 
                           disabled={connectingWhatsApp || savingWhatsApp || saving} 

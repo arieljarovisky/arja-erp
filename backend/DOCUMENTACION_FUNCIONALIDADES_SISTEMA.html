@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de Funcionalidades del Sistema - ARJA ERP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        h4 {
+            color: #666;
+            margin-top: 15px;
+        }
+        .module {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .endpoint {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        .get { background-color: #28a745; color: white; }
+        .post { background-color: #007bff; color: white; }
+        .put { background-color: #ffc107; color: black; }
+        .patch { background-color: #17a2b8; color: white; }
+        .delete { background-color: #dc3545; color: white; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .checklist {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .checklist li:before {
+            content: "☐ ";
+            margin-right: 8px;
+        }
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #3498db;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 Documentación de Funcionalidades del Sistema</h1>
+    <h2>Sistema de Gestión de Turnos - ARJA ERP</h2>
+    
+    <div class="info-box">
+        <strong>📌 Propósito del Documento:</strong> Este documento describe todas las funcionalidades del sistema organizadas por módulos para facilitar el testing completo y sistemático del sistema.
+    </div>
+
+    <div class="toc">
+        <h3>📑 Índice de Contenidos</h3>
+        <ul>
+            <li><a href="#modulo-autenticacion">1. Módulo de Autenticación y Usuarios</a></li>
+            <li><a href="#modulo-turnos">2. Módulo de Turnos (Appointments)</a></li>
+            <li><a href="#modulo-clientes">3. Módulo de Clientes</a></li>
+            <li><a href="#modulo-servicios">4. Módulo de Servicios y Meta</a></li>
+            <li><a href="#modulo-instructores">5. Módulo de Instructores</a></li>
+            <li><a href="#modulo-pagos">6. Módulo de Pagos</a></li>
+            <li><a href="#modulo-calendario">7. Módulo de Calendario</a></li>
+            <li><a href="#modulo-disponibilidad">8. Módulo de Disponibilidad</a></li>
+            <li><a href="#modulo-horarios">9. Módulo de Horarios de Trabajo</a></li>
+            <li><a href="#modulo-dias-libres">10. Módulo de Días Libres</a></li>
+            <li><a href="#modulo-clases">11. Módulo de Clases</a></li>
+            <li><a href="#modulo-membresias">12. Módulo de Membresías</a></li>
+            <li><a href="#modulo-stock">13. Módulo de Stock/Inventario</a></li>
+            <li><a href="#modulo-facturacion">14. Módulo de Facturación</a></li>
+            <li><a href="#modulo-caja">15. Módulo de Caja</a></li>
+            <li><a href="#modulo-sucursales">16. Módulo de Sucursales</a></li>
+            <li><a href="#modulo-notificaciones">17. Módulo de Notificaciones</a></li>
+            <li><a href="#modulo-whatsapp">18. Módulo de WhatsApp</a></li>
+            <li><a href="#modulo-reportes">19. Módulo de Reportes y Estadísticas</a></li>
+            <li><a href="#modulo-configuracion">20. Módulo de Configuración</a></li>
+            <li><a href="#modulo-admin">21. Módulo de Administración</a></li>
+            <li><a href="#modulo-ecommerce">22. Módulo de E-commerce</a></li>
+            <li><a href="#modulo-suscripciones">23. Módulo de Suscripciones</a></li>
+            <li><a href="#modulo-super-admin">24. Módulo de Super Administrador</a></li>
+            <li><a href="#modulo-onboarding">25. Módulo de Onboarding</a></li>
+            <li><a href="#checklist-testing">26. Checklist de Testing por Módulo</a></li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 1: AUTENTICACIÓN -->
+    <div class="module" id="modulo-autenticacion">
+        <h2>1. 🔐 Módulo de Autenticación y Usuarios</h2>
+        
+        <h3>1.1 Autenticación de Usuarios</h3>
+        <ul>
+            <li><strong>Login:</strong> Autenticación con email y contraseña</li>
+            <li><strong>Registro:</strong> Creación de nuevas cuentas de usuario</li>
+            <li><strong>Recuperación de contraseña:</strong> Solicitud y restablecimiento de contraseña olvidada</li>
+            <li><strong>Validación de contraseña:</strong> Requisitos de seguridad (mínimo 8 caracteres, mayúsculas, números, etc.)</li>
+            <li><strong>Tokens JWT:</strong> Generación y validación de tokens de acceso</li>
+            <li><strong>Refresh tokens:</strong> Renovación automática de tokens</li>
+            <li><strong>Logout:</strong> Invalidación de sesiones</li>
+            <li><strong>Autenticación por email:</strong> Sistema de verificación por correo electrónico</li>
+        </ul>
+
+        <h3>1.2 Gestión de Usuarios</h3>
+        <ul>
+            <li><strong>Listado de usuarios:</strong> Visualización de todos los usuarios del tenant</li>
+            <li><strong>Crear usuario:</strong> Registro de nuevos usuarios con roles específicos</li>
+            <li><strong>Editar usuario:</strong> Modificación de datos de usuario</li>
+            <li><strong>Eliminar usuario:</strong> Desactivación o eliminación de usuarios</li>
+            <li><strong>Roles y permisos:</strong> Sistema de roles (admin, staff, user) y permisos granulares</li>
+            <li><strong>Asignación de permisos:</strong> Configuración de permisos específicos por usuario</li>
+        </ul>
+
+        <h3>1.3 Multi-tenant</h3>
+        <ul>
+            <li><strong>Identificación de tenant:</strong> Sistema multi-tenant con aislamiento de datos</li>
+            <li><strong>Cambio de tenant:</strong> Capacidad de cambiar entre tenants (super admin)</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 2: TURNOS -->
+    <div class="module" id="modulo-turnos">
+        <h2>2. 📅 Módulo de Turnos (Appointments)</h2>
+        
+        <h3>2.1 Gestión de Turnos</h3>
+        <ul>
+            <li><strong>Crear turno:</strong> Reserva de nuevos turnos con validaciones</li>
+            <li><strong>Listar turnos:</strong> Visualización de turnos con filtros (fecha, estado, instructor, cliente)</li>
+            <li><strong>Editar turno:</strong> Modificación de turnos existentes</li>
+            <li><strong>Cancelar turno:</strong> Cancelación de turnos con manejo de depósitos</li>
+            <li><strong>Confirmar turno:</strong> Confirmación manual de turnos</li>
+            <li><strong>Marcar como asistido:</strong> Registro de asistencia</li>
+            <li><strong>Marcar como no asistido:</strong> Registro de inasistencia</li>
+        </ul>
+
+        <h3>2.2 Validaciones de Turnos</h3>
+        <ul>
+            <li><strong>Validación de fecha:</strong> No permitir turnos en fechas pasadas</li>
+            <li><strong>Validación de solapamiento:</strong> Prevenir turnos que se superponen</li>
+            <li><strong>Validación de horarios de trabajo:</strong> Verificar que el turno esté dentro del horario del instructor</li>
+            <li><strong>Validación de disponibilidad:</strong> Verificar que el instructor esté disponible</li>
+            <li><strong>Validación de duración:</strong> Calcular duración basada en el servicio</li>
+        </ul>
+
+        <h3>2.3 Estados de Turnos</h3>
+        <ul>
+            <li><strong>Scheduled:</strong> Turno programado</li>
+            <li><strong>Confirmed:</strong> Turno confirmado</li>
+            <li><strong>Deposit paid:</strong> Seña pagada</li>
+            <li><strong>Pending deposit:</strong> Seña pendiente</li>
+            <li><strong>Completed:</strong> Turno completado</li>
+            <li><strong>Cancelled:</strong> Turno cancelado</li>
+            <li><strong>No show:</strong> Cliente no se presentó</li>
+        </ul>
+
+        <h3>2.4 Depósitos y Señas</h3>
+        <ul>
+            <li><strong>Configuración de seña:</strong> Establecer monto de seña por servicio</li>
+            <li><strong>Pago de seña:</strong> Procesamiento de pago de seña</li>
+            <li><strong>Clientes exentos de seña:</strong> Marcado de clientes que no requieren seña</li>
+            <li><strong>Link de pago de seña:</strong> Generación de links para pago online</li>
+        </ul>
+
+        <h3>2.5 Filtros y Búsqueda</h3>
+        <ul>
+            <li>Filtro por fecha (desde/hasta)</li>
+            <li>Filtro por estado</li>
+            <li>Filtro por instructor</li>
+            <li>Filtro por cliente</li>
+            <li>Filtro por servicio</li>
+            <li>Filtro por sucursal</li>
+            <li>Búsqueda por nombre de cliente</li>
+            <li>Paginación de resultados</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 3: CLIENTES -->
+    <div class="module" id="modulo-clientes">
+        <h2>3. 👥 Módulo de Clientes</h2>
+        
+        <h3>3.1 Gestión de Clientes</h3>
+        <ul>
+            <li><strong>Crear cliente:</strong> Registro de nuevos clientes</li>
+            <li><strong>Listar clientes:</strong> Visualización de clientes con paginación</li>
+            <li><strong>Buscar cliente:</strong> Búsqueda por teléfono, nombre, email</li>
+            <li><strong>Editar cliente:</strong> Modificación de datos del cliente</li>
+            <li><strong>Eliminar cliente:</strong> Eliminación o desactivación de clientes</li>
+            <li><strong>Detalle de cliente:</strong> Vista detallada con historial</li>
+        </ul>
+
+        <h3>3.2 Datos del Cliente</h3>
+        <ul>
+            <li>Nombre completo</li>
+            <li>Teléfono (normalizado a formato E.164)</li>
+            <li>Email</li>
+            <li>Documento (DNI, CUIT, etc.)</li>
+            <li>Tipo de documento</li>
+            <li>Domicilio</li>
+            <li>Razón social (para facturación)</li>
+            <li>Condición de IVA</li>
+            <li>Notas y observaciones</li>
+            <li>Exento de seña</li>
+        </ul>
+
+        <h3>3.3 Funcionalidades Especiales</h3>
+        <ul>
+            <li><strong>Upsert por teléfono:</strong> Crear o actualizar cliente automáticamente por teléfono</li>
+            <li><strong>Historial de turnos:</strong> Visualización de turnos del cliente</li>
+            <li><strong>Historial de pagos:</strong> Registro de pagos del cliente</li>
+            <li><strong>Membresías activas:</strong> Visualización de membresías del cliente</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 4: SERVICIOS -->
+    <div class="module" id="modulo-servicios">
+        <h2>4. ✂️ Módulo de Servicios y Meta</h2>
+        
+        <h3>4.1 Gestión de Servicios</h3>
+        <ul>
+            <li><strong>Crear servicio:</strong> Definición de nuevos servicios</li>
+            <li><strong>Listar servicios:</strong> Visualización de servicios activos</li>
+            <li><strong>Editar servicio:</strong> Modificación de servicios</li>
+            <li><strong>Eliminar servicio:</strong> Desactivación de servicios</li>
+            <li><strong>Activar/Desactivar:</strong> Control de disponibilidad de servicios</li>
+        </ul>
+
+        <h3>4.2 Datos del Servicio</h3>
+        <ul>
+            <li>Nombre del servicio</li>
+            <li>Descripción</li>
+            <li>Precio</li>
+            <li>Duración (en minutos)</li>
+            <li>Estado (activo/inactivo)</li>
+            <li>Asociación con instructores</li>
+        </ul>
+
+        <h3>4.3 Endpoints Meta</h3>
+        <ul>
+            <li><strong>GET /api/meta/services:</strong> Listar servicios</li>
+            <li><strong>GET /api/meta/instructors:</strong> Listar instructores</li>
+            <li><strong>GET /api/meta/customers:</strong> Listar clientes (búsqueda rápida)</li>
+            <li><strong>GET /api/meta/branches:</strong> Listar sucursales</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 5: INSTRUCTORES -->
+    <div class="module" id="modulo-instructores">
+        <h2>5. 👨‍🏫 Módulo de Instructores</h2>
+        
+        <h3>5.1 Gestión de Instructores</h3>
+        <ul>
+            <li><strong>Crear instructor:</strong> Registro de nuevos instructores</li>
+            <li><strong>Listar instructores:</strong> Visualización de instructores</li>
+            <li><strong>Editar instructor:</strong> Modificación de datos</li>
+            <li><strong>Eliminar instructor:</strong> Desactivación de instructores</li>
+            <li><strong>Activar/Desactivar:</strong> Control de disponibilidad</li>
+        </ul>
+
+        <h3>5.2 Datos del Instructor</h3>
+        <ul>
+            <li>Nombre</li>
+            <li>Email</li>
+            <li>Teléfono</li>
+            <li>Servicios asociados</li>
+            <li>Horarios de trabajo</li>
+            <li>Estado (activo/inactivo)</li>
+        </ul>
+
+        <h3>5.3 Comisiones</h3>
+        <ul>
+            <li><strong>Configuración de comisiones:</strong> Establecer porcentaje o monto fijo</li>
+            <li><strong>Cálculo de comisiones:</strong> Cálculo automático por turno</li>
+            <li><strong>Reporte de comisiones:</strong> Visualización de comisiones por período</li>
+        </ul>
+
+        <h3>5.4 Estadísticas de Instructores</h3>
+        <ul>
+            <li>Turnos atendidos</li>
+            <li>Ingresos generados</li>
+            <li>Comisiones devengadas</li>
+            <li>Horas trabajadas</li>
+            <li>Clientes atendidos</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 6: PAGOS -->
+    <div class="module" id="modulo-pagos">
+        <h2>6. 💰 Módulo de Pagos</h2>
+        
+        <h3>6.1 Procesamiento de Pagos</h3>
+        <ul>
+            <li><strong>Pago de turno:</strong> Procesamiento de pago completo</li>
+            <li><strong>Pago de seña:</strong> Procesamiento de depósito</li>
+            <li><strong>Pago parcial:</strong> Pagos parciales de turnos</li>
+            <li><strong>Métodos de pago:</strong> Efectivo, tarjeta, transferencia, Mercado Pago</li>
+            <li><strong>Integración Mercado Pago:</strong> Pagos online con MP</li>
+        </ul>
+
+        <h3>6.2 Gestión de Pagos</h3>
+        <ul>
+            <li><strong>Listar pagos:</strong> Historial de pagos con filtros</li>
+            <li><strong>Detalle de pago:</strong> Información completa del pago</li>
+            <li><strong>Reembolsos:</strong> Procesamiento de reembolsos</li>
+            <li><strong>Anular pago:</strong> Anulación de pagos erróneos</li>
+        </ul>
+
+        <h3>6.3 Webhooks de Mercado Pago</h3>
+        <ul>
+            <li>Recepción de notificaciones de pago</li>
+            <li>Actualización automática de estado de pagos</li>
+            <li>Manejo de pagos aprobados/rechazados</li>
+        </ul>
+
+        <h3>6.4 OAuth de Mercado Pago</h3>
+        <ul>
+            <li>Autenticación con Mercado Pago</li>
+            <li>Configuración de credenciales</li>
+            <li>Renovación de tokens</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 7: CALENDARIO -->
+    <div class="module" id="modulo-calendario">
+        <h2>7. 📆 Módulo de Calendario</h2>
+        
+        <h3>7.1 Vistas del Calendario</h3>
+        <ul>
+            <li><strong>Vista diaria:</strong> Turnos del día</li>
+            <li><strong>Vista semanal:</strong> Turnos de la semana</li>
+            <li><strong>Vista mensual:</strong> Turnos del mes</li>
+            <li><strong>Vista de agenda:</strong> Lista de turnos</li>
+        </ul>
+
+        <h3>7.2 Funcionalidades</h3>
+        <ul>
+            <li>Filtro por instructor</li>
+            <li>Filtro por sucursal</li>
+            <li>Filtro por estado</li>
+            <li>Navegación entre fechas</li>
+            <li>Crear turno desde calendario</li>
+            <li>Editar turno desde calendario</li>
+            <li>Arrastrar y soltar turnos (drag & drop)</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 8: DISPONIBILIDAD -->
+    <div class="module" id="modulo-disponibilidad">
+        <h2>8. ✅ Módulo de Disponibilidad</h2>
+        
+        <h3>8.1 Consulta de Disponibilidad</h3>
+        <ul>
+            <li><strong>Disponibilidad por instructor:</strong> Horarios disponibles de un instructor</li>
+            <li><strong>Disponibilidad por fecha:</strong> Instructores disponibles en una fecha</li>
+            <li><strong>Disponibilidad por servicio:</strong> Instructores disponibles para un servicio</li>
+            <li><strong>Slots disponibles:</strong> Franjas horarias disponibles</li>
+        </ul>
+
+        <h3>8.2 Cálculo de Disponibilidad</h3>
+        <ul>
+            <li>Considera horarios de trabajo</li>
+            <li>Considera días libres</li>
+            <li>Considera turnos ya reservados</li>
+            <li>Considera duración del servicio</li>
+            <li>Considera tiempo entre turnos</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 9: HORARIOS -->
+    <div class="module" id="modulo-horarios">
+        <h2>9. ⏰ Módulo de Horarios de Trabajo</h2>
+        
+        <h3>9.1 Configuración de Horarios</h3>
+        <ul>
+            <li><strong>Crear horario:</strong> Definir horarios de trabajo por instructor</li>
+            <li><strong>Editar horario:</strong> Modificar horarios existentes</li>
+            <li><strong>Eliminar horario:</strong> Eliminar horarios</li>
+            <li><strong>Horarios por día:</strong> Configuración por día de la semana</li>
+            <li><strong>Horarios múltiples:</strong> Múltiples rangos horarios por día</li>
+        </ul>
+
+        <h3>9.2 Datos del Horario</h3>
+        <ul>
+            <li>Día de la semana (1-7)</li>
+            <li>Hora de inicio</li>
+            <li>Hora de fin</li>
+            <li>Instructor asociado</li>
+            <li>Sucursal (si aplica)</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 10: DÍAS LIBRES -->
+    <div class="module" id="modulo-dias-libres">
+        <h2>10. 🏖️ Módulo de Días Libres</h2>
+        
+        <h3>10.1 Gestión de Días Libres</h3>
+        <ul>
+            <li><strong>Crear día libre:</strong> Registrar días libres para instructores</li>
+            <li><strong>Listar días libres:</strong> Visualización de días libres</li>
+            <li><strong>Editar día libre:</strong> Modificar días libres</li>
+            <li><strong>Eliminar día libre:</strong> Eliminar días libres</li>
+        </ul>
+
+        <h3>10.2 Tipos de Días Libres</h3>
+        <ul>
+            <li>Día libre individual</li>
+            <li>Rango de días libres</li>
+            <li>Día libre por instructor</li>
+            <li>Día libre global (todos los instructores)</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 11: CLASES -->
+    <div class="module" id="modulo-clases">
+        <h2>11. 🎓 Módulo de Clases</h2>
+        
+        <h3>11.1 Gestión de Clases</h3>
+        <ul>
+            <li><strong>Crear clase:</strong> Definir nuevas clases</li>
+            <li><strong>Listar clases:</strong> Visualización de clases</li>
+            <li><strong>Editar clase:</strong> Modificación de clases</li>
+            <li><strong>Eliminar clase:</strong> Eliminación de clases</li>
+            <li><strong>Clases recurrentes:</strong> Creación de clases que se repiten</li>
+        </ul>
+
+        <h3>11.2 Sesiones de Clase</h3>
+        <ul>
+            <li><strong>Crear sesión:</strong> Definir sesiones individuales</li>
+            <li><strong>Inscribir alumno:</strong> Inscripción de alumnos a clases</li>
+            <li><strong>Cancelar inscripción:</strong> Cancelación de inscripciones</li>
+            <li><strong>Marcar asistencia:</strong> Registro de asistencia a clases</li>
+            <li><strong>Límites de inscripción:</strong> Control de cupos máximos</li>
+        </ul>
+
+        <h3>11.3 Estados de Inscripción</h3>
+        <ul>
+            <li>Reserved (reservado)</li>
+            <li>Attended (asistió)</li>
+            <li>Cancelled (cancelado)</li>
+            <li>No show (no se presentó)</li>
+        </ul>
+
+        <h3>11.4 Integración con Membresías</h3>
+        <ul>
+            <li>Validación de membresía activa</li>
+            <li>Control de límites de clases por semana/mes</li>
+            <li>Descuento automático de clases disponibles</li>
+        </ul>
+
+        <h3>11.5 Notificaciones WhatsApp</h3>
+        <ul>
+            <li>Recordatorios de clases</li>
+            <li>Notificaciones de inscripción</li>
+            <li>Notificaciones de cancelación</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 12: MEMBRESÍAS -->
+    <div class="module" id="modulo-membresias">
+        <h2>12. 🎫 Módulo de Membresías</h2>
+        
+        <h3>12.1 Gestión de Planes de Membresía</h3>
+        <ul>
+            <li><strong>Crear plan:</strong> Definir nuevos planes de membresía</li>
+            <li><strong>Listar planes:</strong> Visualización de planes</li>
+            <li><strong>Editar plan:</strong> Modificación de planes</li>
+            <li><strong>Eliminar plan:</strong> Eliminación de planes</li>
+            <li><strong>Activar/Desactivar:</strong> Control de disponibilidad</li>
+        </ul>
+
+        <h3>12.2 Datos del Plan</h3>
+        <ul>
+            <li>Nombre del plan</li>
+            <li>Descripción</li>
+            <li>Precio</li>
+            <li>Duración (meses)</li>
+            <li>Límite de clases por semana</li>
+            <li>Límite de clases por mes</li>
+            <li>Límite de turnos activos</li>
+            <li>Día de facturación</li>
+            <li>Días de gracia</li>
+            <li>Tipo de interés (por mora)</li>
+            <li>Valor de interés</li>
+            <li>Bloqueo automático</li>
+        </ul>
+
+        <h3>12.3 Gestión de Membresías de Clientes</h3>
+        <ul>
+            <li><strong>Asignar membresía:</strong> Asignar plan a cliente</li>
+            <li><strong>Listar membresías:</strong> Visualización de membresías activas</li>
+            <li><strong>Renovar membresía:</strong> Renovación de membresías</li>
+            <li><strong>Cancelar membresía:</strong> Cancelación de membresías</li>
+            <li><strong>Historial de membresías:</strong> Registro histórico</li>
+        </ul>
+
+        <h3>12.4 Estados de Membresía</h3>
+        <ul>
+            <li>Active (activa)</li>
+            <li>Expired (expirada)</li>
+            <li>Cancelled (cancelada)</li>
+            <li>Blocked (bloqueada)</li>
+            <li>Pending (pendiente de pago)</li>
+        </ul>
+
+        <h3>12.5 Facturación de Membresías</h3>
+        <ul>
+            <li>Facturación automática</li>
+            <li>Facturación manual</li>
+            <li>Generación de facturas</li>
+            <li>Control de pagos</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 13: STOCK -->
+    <div class="module" id="modulo-stock">
+        <h2>13. 📦 Módulo de Stock/Inventario</h2>
+        
+        <h3>13.1 Gestión de Productos</h3>
+        <ul>
+            <li><strong>Crear producto:</strong> Registro de nuevos productos</li>
+            <li><strong>Listar productos:</strong> Visualización de productos</li>
+            <li><strong>Editar producto:</strong> Modificación de productos</li>
+            <li><strong>Eliminar producto:</strong> Eliminación de productos</li>
+            <li><strong>Búsqueda de productos:</strong> Búsqueda por nombre, código, categoría</li>
+        </ul>
+
+        <h3>13.2 Datos del Producto</h3>
+        <ul>
+            <li>Nombre</li>
+            <li>Código/SKU</li>
+            <li>Descripción</li>
+            <li>Categoría</li>
+            <li>Precio de compra</li>
+            <li>Precio de venta</li>
+            <li>Stock mínimo</li>
+            <li>Stock actual</li>
+            <li>Unidad de medida</li>
+            <li>Proveedor</li>
+        </ul>
+
+        <h3>13.3 Movimientos de Stock</h3>
+        <ul>
+            <li><strong>Entrada de stock:</strong> Ingreso de productos</li>
+            <li><strong>Salida de stock:</strong> Egreso de productos</li>
+            <li><strong>Ajuste de stock:</strong> Corrección de inventario</li>
+            <li><strong>Historial de movimientos:</strong> Registro de todos los movimientos</li>
+            <li><strong>Tipos de movimiento:</strong> Compra, venta, ajuste, transferencia, pérdida</li>
+        </ul>
+
+        <h3>13.4 Transferencias entre Sucursales</h3>
+        <ul>
+            <li><strong>Crear transferencia:</strong> Transferir productos entre sucursales</li>
+            <li><strong>Listar transferencias:</strong> Historial de transferencias</li>
+            <li><strong>Aprobar transferencia:</strong> Aprobación de transferencias</li>
+            <li><strong>Rechazar transferencia:</strong> Rechazo de transferencias</li>
+            <li><strong>Estados:</strong> Pendiente, en tránsito, completada, rechazada</li>
+        </ul>
+
+        <h3>13.5 Reservas de Stock</h3>
+        <ul>
+            <li><strong>Crear reserva:</strong> Reservar productos para turnos/clases</li>
+            <li><strong>Listar reservas:</strong> Visualización de reservas</li>
+            <li><strong>Confirmar reserva:</strong> Confirmación y descuento de stock</li>
+            <li><strong>Cancelar reserva:</strong> Cancelación y liberación de stock</li>
+        </ul>
+
+        <h3>13.6 Alertas de Stock</h3>
+        <ul>
+            <li><strong>Alertas de stock bajo:</strong> Notificaciones cuando el stock está bajo el mínimo</li>
+            <li><strong>Listar alertas:</strong> Visualización de productos con stock bajo</li>
+            <li><strong>Configuración de umbrales:</strong> Establecer niveles de alerta</li>
+        </ul>
+
+        <h3>13.7 Valuación de Inventario</h3>
+        <ul>
+            <li><strong>Valuación por sucursal:</strong> Valor total del inventario por sucursal</li>
+            <li><strong>Valuación por categoría:</strong> Valor por categoría de producto</li>
+            <li><strong>Reporte de valuación:</strong> Reportes detallados</li>
+            <li><strong>Métodos de valuación:</strong> FIFO, promedio, específico</li>
+        </ul>
+
+        <h3>13.8 Permisos de Stock</h3>
+        <ul>
+            <li>Permisos granulares por acción (read, write, delete, transfer)</li>
+            <li>Control por rol y usuario</li>
+            <li>Validación de permisos en cada operación</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 14: FACTURACIÓN -->
+    <div class="module" id="modulo-facturacion">
+        <h2>14. 🧾 Módulo de Facturación</h2>
+        
+        <h3>14.1 Facturación Electrónica (ARCA)</h3>
+        <ul>
+            <li><strong>Generar factura:</strong> Creación de facturas electrónicas</li>
+            <li><strong>Consultar factura:</strong> Consulta de estado de facturas</li>
+            <strong>Generar nota de crédito:</strong> Anulación mediante notas de crédito</li>
+            <li><strong>Verificar conexión:</strong> Health check del servicio ARCA</li>
+            <li><strong>Tipos de comprobante:</strong> Factura A, B, C, Nota de Crédito, etc.</li>
+            <li><strong>Condiciones de IVA:</strong> Responsable Inscripto, Monotributo, Exento, etc.</li>
+        </ul>
+
+        <h3>14.2 Facturación de Turnos</h3>
+        <ul>
+            <li>Facturación automática al completar turno</li>
+            <li>Facturación manual</li>
+            <li>Cálculo automático de IVA</li>
+            <li>Asociación con cliente y datos fiscales</li>
+        </ul>
+
+        <h3>14.3 Facturación de Productos</h3>
+        <ul>
+            <li>Facturación de ventas de productos</li>
+            <li>Facturación de membresías</li>
+            <li>Facturación de servicios</li>
+        </ul>
+
+        <h3>14.4 Gestión de Facturas</h3>
+        <ul>
+            <li><strong>Listar facturas:</strong> Historial de facturas</li>
+            <li><strong>Ver detalle:</strong> Detalle completo de factura</li>
+            <li><strong>Reimprimir:</strong> Reimpresión de facturas</li>
+            <li><strong>Anular factura:</strong> Anulación mediante nota de crédito</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 15: CAJA -->
+    <div class="module" id="modulo-caja">
+        <h2>15. 💵 Módulo de Caja</h2>
+        
+        <h3>15.1 Apertura de Caja</h3>
+        <ul>
+            <li><strong>Abrir caja:</strong> Iniciar jornada de caja</li>
+            <li><strong>Monto inicial:</strong> Establecer monto de apertura</li>
+            <li><strong>Asignación de usuario:</strong> Usuario responsable de la caja</li>
+            <li><strong>Asignación de sucursal:</strong> Sucursal de la caja</li>
+        </ul>
+
+        <h3>15.2 Movimientos de Caja</h3>
+        <ul>
+            <li><strong>Ingresos:</strong> Registro de ingresos</li>
+            <li><strong>Egresos:</strong> Registro de egresos</li>
+            <li><strong>Tipos de movimiento:</strong> Venta, pago, gasto, ajuste</li>
+            <li><strong>Concepto:</strong> Descripción del movimiento</li>
+            <li><strong>Método de pago:</strong> Efectivo, tarjeta, transferencia</li>
+        </ul>
+
+        <h3>15.3 Cierre de Caja</h3>
+        <ul>
+            <li><strong>Cerrar caja:</strong> Finalizar jornada de caja</li>
+            <li><strong>Conteo de efectivo:</strong> Conteo físico de dinero</li>
+            <li><strong>Cálculo de diferencia:</strong> Diferencia entre lo esperado y lo contado</li>
+            <li><strong>Observaciones:</strong> Notas del cierre</li>
+            <li><strong>Estados:</strong> Abierta, cerrada, en revisión</li>
+        </ul>
+
+        <h3>15.4 Reportes de Caja</h3>
+        <ul>
+            <li>Resumen de caja por día</li>
+            <li>Resumen por período</li>
+            <li>Desglose por método de pago</li>
+            <li>Historial de cierres</li>
+            <li>Diferencias de caja</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 16: SUCURSALES -->
+    <div class="module" id="modulo-sucursales">
+        <h2>16. 🏢 Módulo de Sucursales</h2>
+        
+        <h3>16.1 Gestión de Sucursales</h3>
+        <ul>
+            <li><strong>Crear sucursal:</strong> Registro de nuevas sucursales</li>
+            <li><strong>Listar sucursales:</strong> Visualización de sucursales</li>
+            <li><strong>Editar sucursal:</strong> Modificación de datos</li>
+            <li><strong>Eliminar sucursal:</strong> Eliminación de sucursales</li>
+            <li><strong>Activar/Desactivar:</strong> Control de disponibilidad</li>
+        </ul>
+
+        <h3>16.2 Datos de la Sucursal</h3>
+        <ul>
+            <li>Nombre</li>
+            <li>Dirección</li>
+            <li>Teléfono</li>
+            <li>Email</li>
+            <li>Horarios de atención</li>
+            <li>Configuraciones específicas</li>
+        </ul>
+
+        <h3>16.3 Funcionalidades Multi-sucursal</h3>
+        <ul>
+            <li>Filtrado por sucursal en todos los módulos</li>
+            <li>Asignación de usuarios a sucursales</li>
+            <li>Asignación de instructores a sucursales</li>
+            <li>Stock por sucursal</li>
+            <li>Reportes por sucursal</li>
+        </ul>
+
+        <h3>16.4 Control de Acceso</h3>
+        <ul>
+            <li>Permisos por sucursal</li>
+            <li>Restricción de acceso</li>
+            <li>Modo de sucursal única/múltiple</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 17: NOTIFICACIONES -->
+    <div class="module" id="modulo-notificaciones">
+        <h2>17. 📧 Módulo de Notificaciones</h2>
+        
+        <h3>17.1 Notificaciones del Sistema</h3>
+        <ul>
+            <li><strong>Crear notificación:</strong> Generar notificaciones</li>
+            <li><strong>Listar notificaciones:</strong> Visualización de notificaciones</li>
+            <li><strong>Marcar como leída:</strong> Marcar notificaciones como leídas</li>
+            <li><strong>Eliminar notificación:</strong> Eliminar notificaciones</li>
+            <li><strong>Tipos de notificación:</strong> Info, warning, error, success</li>
+        </ul>
+
+        <h3>17.2 Notificaciones por Email</h3>
+        <ul>
+            <li>Configuración SMTP</li>
+            <li>Envió de emails</li>
+            <li>Plantillas de email</li>
+            <li>Verificación de envío</li>
+            <li>Diagnóstico de SMTP</li>
+        </ul>
+
+        <h3>17.3 Notificaciones por WhatsApp</h3>
+        <ul>
+            <li>Integración con WhatsApp Business API</li>
+            <li>Envío de mensajes</li>
+            <li>Plantillas de mensajes</li>
+            <li>Estado de entrega</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 18: WHATSAPP -->
+    <div class="module" id="modulo-whatsapp">
+        <h2>18. 💬 Módulo de WhatsApp</h2>
+        
+        <h3>18.1 Envío de Mensajes</h3>
+        <ul>
+            <li><strong>Enviar mensaje de texto:</strong> Envío de mensajes simples</li>
+            <li><strong>Enviar plantilla:</strong> Envío de mensajes con plantillas aprobadas</li>
+            <li><strong>Enviar imagen:</strong> Envío de imágenes</li>
+            <li><strong>Enviar documento:</strong> Envío de documentos</li>
+        </ul>
+
+        <h3>18.2 Plantillas de WhatsApp</h3>
+        <ul>
+            <li><strong>Crear plantilla:</strong> Definir nuevas plantillas</li>
+            <li><strong>Listar plantillas:</strong> Visualización de plantillas</li>
+            <li><strong>Editar plantilla:</strong> Modificación de plantillas</li>
+            <li><strong>Eliminar plantilla:</strong> Eliminación de plantillas</li>
+            <li><strong>Variables en plantillas:</strong> Uso de variables dinámicas</li>
+        </ul>
+
+        <h3>18.3 Flujos de WhatsApp</h3>
+        <ul>
+            <li><strong>Reserva de turnos:</strong> Flujo completo de reserva por WhatsApp</li>
+            <li><strong>Confirmación de turnos:</strong> Confirmación automática</li>
+            <li><strong>Recordatorios:</strong> Recordatorios automáticos</li>
+            <li><strong>Cancelaciones:</strong> Notificaciones de cancelación</li>
+        </ul>
+
+        <h3>18.4 Webhooks de WhatsApp</h3>
+        <ul>
+            <li>Recepción de mensajes entrantes</li>
+            <li>Actualización de estado de mensajes</li>
+            <li>Manejo de respuestas</li>
+        </ul>
+
+        <h3>18.5 Chat Widget</h3>
+        <ul>
+            <li>Widget de chat en frontend</li>
+            <li>Integración con landing page</li>
+            <li>Chat con IA</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 19: REPORTES -->
+    <div class="module" id="modulo-reportes">
+        <h2>19. 📊 Módulo de Reportes y Estadísticas</h2>
+        
+        <h3>19.1 Dashboard Administrativo</h3>
+        <ul>
+            <li><strong>Resumen general:</strong> Métricas principales</li>
+            <li><strong>Turnos del día:</strong> Turnos programados para hoy</li>
+            <li><strong>Ingresos del día:</strong> Ingresos del día actual</li>
+            <li><strong>Turnos pendientes:</strong> Turnos que requieren atención</li>
+            <li><strong>Clientes nuevos:</strong> Clientes registrados recientemente</li>
+        </ul>
+
+        <h3>19.2 Reportes de Turnos</h3>
+        <ul>
+            <li>Reporte por período</li>
+            <li>Reporte por instructor</li>
+            <li>Reporte por servicio</li>
+            <li>Reporte por cliente</li>
+            <li>Reporte por sucursal</li>
+            <li>Estadísticas de asistencia</li>
+            <li>Estadísticas de cancelaciones</li>
+        </ul>
+
+        <h3>19.3 Reportes Financieros</h3>
+        <ul>
+            <li>Reporte de ingresos</li>
+            <li>Reporte de pagos</li>
+            <li>Reporte de comisiones</li>
+            <li>Reporte de facturación</li>
+            <li>Reporte de caja</li>
+        </ul>
+
+        <h3>19.4 Estadísticas de Instructores</h3>
+        <ul>
+            <li>Turnos atendidos</li>
+            <li>Ingresos generados</li>
+            <li>Comisiones devengadas</li>
+            <li>Horas trabajadas</li>
+            <li>Clientes atendidos</li>
+            <li>Promedio de turnos por día</li>
+        </ul>
+
+        <h3>19.5 Reportes de Stock</h3>
+        <ul>
+            <li>Movimientos de stock</li>
+            <li>Productos más vendidos</li>
+            <li>Valuación de inventario</li>
+            <li>Alertas de stock</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 20: CONFIGURACIÓN -->
+    <div class="module" id="modulo-configuracion">
+        <h2>20. ⚙️ Módulo de Configuración</h2>
+        
+        <h3>20.1 Configuración General</h3>
+        <ul>
+            <li><strong>Configuración del negocio:</strong> Datos generales del negocio</li>
+            <li><strong>Configuración de seña:</strong> Montos y reglas de seña</li>
+            <li><strong>Configuración de recordatorios:</strong> Horarios y frecuencia</li>
+            <li><strong>Configuración de notificaciones:</strong> Preferencias de notificaciones</li>
+            <li><strong>Configuración de facturación:</strong> Datos fiscales</li>
+        </ul>
+
+        <h3>20.2 Configuración de Integraciones</h3>
+        <ul>
+            <li>Configuración de Mercado Pago</li>
+            <li>Configuración de WhatsApp</li>
+            <li>Configuración de email (SMTP)</li>
+            <li>Configuración de ARCA (facturación)</li>
+            <li>Configuración de e-commerce</li>
+        </ul>
+
+        <h3>20.3 Configuración de Tipos de Negocio</h3>
+        <ul>
+            <li><strong>Seleccionar tipo:</strong> Peluquería, gimnasio, spa, etc.</li>
+            <li><strong>Configuraciones específicas:</strong> Ajustes por tipo de negocio</li>
+            <li><strong>Habilitar/Deshabilitar módulos:</strong> Activar solo módulos necesarios</li>
+        </ul>
+
+        <h3>20.4 Configuración de Depósitos</h3>
+        <ul>
+            <li>Monto mínimo de seña</li>
+            <li>Porcentaje de seña por servicio</li>
+            <li>Reglas de reembolso</li>
+            <li>Clientes exentos</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 21: ADMIN -->
+    <div class="module" id="modulo-admin">
+        <h2>21. 🔧 Módulo de Administración</h2>
+        
+        <h3>21.1 Panel de Administración</h3>
+        <ul>
+            <li><strong>Dashboard admin:</strong> Vista general para administradores</li>
+            <li><strong>Gestión de usuarios:</strong> CRUD completo de usuarios</li>
+            <li><strong>Gestión de clientes:</strong> Administración avanzada de clientes</li>
+            <li><strong>Gestión de instructores:</strong> Administración de instructores</li>
+            <li><strong>Gestión de servicios:</strong> Administración de servicios</li>
+        </ul>
+
+        <h3>21.2 Configuración Avanzada</h3>
+        <ul>
+            <li>Configuración de permisos</li>
+            <li>Configuración de roles</li>
+            <li>Configuración de características del tenant</li>
+            <li>Configuración de integraciones</li>
+        </ul>
+
+        <h3>21.3 Gestión de Depósitos</h3>
+        <ul>
+            <li><strong>Listar depósitos:</strong> Visualización de depósitos</li>
+            <li><strong>Aprobar depósito:</strong> Aprobación de depósitos pendientes</li>
+            <li><strong>Rechazar depósito:</strong> Rechazo de depósitos</li>
+            <li><strong>Historial de depósitos:</strong> Registro histórico</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 22: ECOMMERCE -->
+    <div class="module" id="modulo-ecommerce">
+        <h2>22. 🛒 Módulo de E-commerce</h2>
+        
+        <h3>22.1 Gestión de Ventas</h3>
+        <ul>
+            <li><strong>Listar ventas:</strong> Visualización de ventas online</li>
+            <li><strong>Detalle de venta:</strong> Información completa de venta</li>
+            <li><strong>Procesar venta:</strong> Procesamiento de ventas</li>
+            <li><strong>Cancelar venta:</strong> Cancelación de ventas</li>
+        </ul>
+
+        <h3>22.2 Integraciones de E-commerce</h3>
+        <ul>
+            <li><strong>Configurar integración:</strong> Conectar con plataformas externas</li>
+            <li><strong>Listar integraciones:</strong> Visualización de integraciones activas</li>
+            <li><strong>Sincronizar productos:</strong> Sincronización de catálogo</li>
+            <li><strong>Sincronizar ventas:</strong> Importación de ventas</li>
+            <li><strong>Webhooks:</strong> Recepción de notificaciones de e-commerce</li>
+        </ul>
+
+        <h3>22.3 Endpoints Públicos</h3>
+        <ul>
+            <li>Endpoints públicos para integraciones</li>
+            <li>Autenticación de integraciones</li>
+            <li>Validación de webhooks</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 23: SUSCRIPCIONES -->
+    <div class="module" id="modulo-suscripciones">
+        <h2>23. 💳 Módulo de Suscripciones</h2>
+        
+        <h3>23.1 Gestión de Suscripciones</h3>
+        <ul>
+            <li><strong>Listar suscripciones:</strong> Visualización de suscripciones del tenant</li>
+            <li><strong>Crear suscripción:</strong> Activación de nueva suscripción</li>
+            <li><strong>Renovar suscripción:</strong> Renovación de suscripción</li>
+            <li><strong>Cancelar suscripción:</strong> Cancelación de suscripción</li>
+            <li><strong>Actualizar plan:</strong> Cambio de plan de suscripción</li>
+        </ul>
+
+        <h3>23.2 Planes de Suscripción</h3>
+        <ul>
+            <li>Plan básico</li>
+            <li>Plan profesional</li>
+            <li>Plan empresarial</li>
+            <li>Planes personalizados</li>
+        </ul>
+
+        <h3>23.3 Estados de Suscripción</h3>
+        <ul>
+            <li>Active (activa)</li>
+            <li>Trial (período de prueba)</li>
+            <li>Expired (expirada)</li>
+            <li>Cancelled (cancelada)</li>
+            <li>Pending (pendiente de pago)</li>
+        </ul>
+
+        <h3>23.4 Integración con Mercado Pago</h3>
+        <ul>
+            <li>Pago de suscripción</li>
+            <li>Renovación automática</li>
+            <li>Webhooks de suscripción</li>
+            <li>Manejo de pagos fallidos</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 24: SUPER ADMIN -->
+    <div class="module" id="modulo-super-admin">
+        <h2>24. 👑 Módulo de Super Administrador</h2>
+        
+        <h3>24.1 Gestión de Tenants</h3>
+        <ul>
+            <li><strong>Listar tenants:</strong> Visualización de todos los tenants</li>
+            <li><strong>Crear tenant:</strong> Registro de nuevos tenants</li>
+            <li><strong>Editar tenant:</strong> Modificación de datos del tenant</li>
+            <li><strong>Eliminar tenant:</strong> Eliminación de tenants</li>
+            <li><strong>Activar/Desactivar:</strong> Control de estado de tenants</li>
+        </ul>
+
+        <h3>24.2 Detalle de Tenant</h3>
+        <ul>
+            <li>Información completa del tenant</li>
+            <li>Usuarios del tenant</li>
+            <li>Suscripciones del tenant</li>
+            <li>Estadísticas del tenant</li>
+            <li>Configuraciones del tenant</li>
+        </ul>
+
+        <h3>24.3 Funciones Especiales</h3>
+        <ul>
+            <li>Acceso a todos los tenants</li>
+            <li>Modificación de configuraciones globales</li>
+            <li>Gestión de características del sistema</li>
+            <li>Logs del sistema</li>
+        </ul>
+    </div>
+
+    <!-- MÓDULO 25: ONBOARDING -->
+    <div class="module" id="modulo-onboarding">
+        <h2>25. 🚀 Módulo de Onboarding</h2>
+        
+        <h3>25.1 Flujo de Onboarding</h3>
+        <ul>
+            <li><strong>Registro inicial:</strong> Creación de cuenta</li>
+            <li><strong>Configuración inicial:</strong> Configuración básica del negocio</li>
+            <li><strong>Configuración de pago:</strong> Configuración de método de pago</li>
+            <li><strong>Activación:</strong> Activación de la cuenta</li>
+        </ul>
+
+        <h3>25.2 Páginas de Onboarding</h3>
+        <ul>
+            <li>Página de registro</li>
+            <li>Página de configuración</li>
+            <li>Página de pago</li>
+            <li>Página de activación pendiente</li>
+            <li>Página de pago completado</li>
+        </ul>
+
+        <h3>25.3 Endpoints Públicos</h3>
+        <ul>
+            <li>Endpoints públicos para onboarding</li>
+            <li>Validación de datos</li>
+            <li>Procesamiento de pagos</li>
+        </ul>
+    </div>
+
+    <!-- CHECKLIST DE TESTING -->
+    <div class="module" id="checklist-testing">
+        <h2>26. ✅ Checklist de Testing por Módulo</h2>
+        
+        <h3>26.1 Módulo de Autenticación</h3>
+        <ul class="checklist">
+            <li>Login con credenciales válidas</li>
+            <li>Login con credenciales inválidas</li>
+            <li>Registro de nuevo usuario</li>
+            <li>Validación de contraseña fuerte</li>
+            <li>Recuperación de contraseña</li>
+            <li>Refresh token</li>
+            <li>Logout</li>
+            <li>Crear usuario (admin)</li>
+            <li>Editar usuario</li>
+            <li>Eliminar usuario</li>
+            <li>Asignar permisos</li>
+        </ul>
+
+        <h3>26.2 Módulo de Turnos</h3>
+        <ul class="checklist">
+            <li>Crear turno válido</li>
+            <li>Rechazar turno con fecha pasada</li>
+            <li>Rechazar turno con solape de horarios</li>
+            <li>Actualizar turno</li>
+            <li>Cancelar turno</li>
+            <li>Listar turnos con filtros</li>
+            <li>Validar disponibilidad de instructor</li>
+            <li>Pagar seña de turno</li>
+            <li>Confirmar turno</li>
+            <li>Marcar como asistido</li>
+            <li>Marcar como no asistido</li>
+        </ul>
+
+        <h3>26.3 Módulo de Clientes</h3>
+        <ul class="checklist">
+            <li>Crear cliente</li>
+            <li>Buscar cliente por teléfono</li>
+            <li>Actualizar información de cliente</li>
+            <li>Listar clientes con paginación</li>
+            <li>Validar formato de teléfono</li>
+            <li>Ver historial de turnos del cliente</li>
+            <li>Ver historial de pagos del cliente</li>
+        </ul>
+
+        <h3>26.4 Módulo de Servicios</h3>
+        <ul class="checklist">
+            <li>Crear servicio</li>
+            <li>Listar servicios</li>
+            <li>Editar servicio</li>
+            <li>Eliminar servicio</li>
+            <li>Activar/Desactivar servicio</li>
+        </ul>
+
+        <h3>26.5 Módulo de Instructores</h3>
+        <ul class="checklist">
+            <li>Crear instructor</li>
+            <li>Listar instructores</li>
+            <li>Editar instructor</li>
+            <li>Eliminar instructor</li>
+            <li>Configurar comisiones</li>
+            <li>Ver estadísticas de instructor</li>
+        </ul>
+
+        <h3>26.6 Módulo de Pagos</h3>
+        <ul class="checklist">
+            <li>Procesar pago exitoso</li>
+            <li>Rechazar pago con tarjeta inválida</li>
+            <li>Procesar seña (depósito)</li>
+            <li>Reembolso</li>
+            <li>Historial de pagos</li>
+            <li>Webhook de Mercado Pago</li>
+        </ul>
+
+        <h3>26.7 Módulo de Calendario</h3>
+        <ul class="checklist">
+            <li>Vista diaria</li>
+            <li>Vista semanal</li>
+            <li>Vista mensual</li>
+            <li>Filtros por instructor/sucursal</li>
+            <li>Crear turno desde calendario</li>
+            <li>Editar turno desde calendario</li>
+        </ul>
+
+        <h3>26.8 Módulo de Disponibilidad</h3>
+        <ul class="checklist">
+            <li>Consultar disponibilidad por instructor</li>
+            <li>Consultar disponibilidad por fecha</li>
+            <li>Consultar slots disponibles</li>
+            <li>Validar horarios de trabajo</li>
+        </ul>
+
+        <h3>26.9 Módulo de Horarios de Trabajo</h3>
+        <ul class="checklist">
+            <li>Crear horario</li>
+            <li>Editar horario</li>
+            <li>Eliminar horario</li>
+            <li>Horarios múltiples por día</li>
+        </ul>
+
+        <h3>26.10 Módulo de Días Libres</h3>
+        <ul class="checklist">
+            <li>Crear día libre</li>
+            <li>Listar días libres</li>
+            <li>Editar día libre</li>
+            <li>Eliminar día libre</li>
+            <li>Rango de días libres</li>
+        </ul>
+
+        <h3>26.11 Módulo de Clases</h3>
+        <ul class="checklist">
+            <li>Crear clase</li>
+            <li>Crear sesión de clase</li>
+            <li>Inscribir alumno</li>
+            <li>Cancelar inscripción</li>
+            <li>Marcar asistencia</li>
+            <li>Validar límites de membresía</li>
+            <li>Clases recurrentes</li>
+        </ul>
+
+        <h3>26.12 Módulo de Membresías</h3>
+        <ul class="checklist">
+            <li>Crear plan de membresía</li>
+            <li>Listar planes</li>
+            <li>Asignar membresía a cliente</li>
+            <li>Renovar membresía</li>
+            <li>Cancelar membresía</li>
+            <li>Facturar membresía</li>
+            <li>Validar límites de clases</li>
+        </ul>
+
+        <h3>26.13 Módulo de Stock</h3>
+        <ul class="checklist">
+            <li>Agregar producto</li>
+            <li>Actualizar stock</li>
+            <li>Alertas de stock bajo</li>
+            <li>Transferencias entre sucursales</li>
+            <li>Valuación de inventario</li>
+            <li>Crear reserva de stock</li>
+            <li>Confirmar reserva</li>
+            <li>Movimientos de stock</li>
+        </ul>
+
+        <h3>26.14 Módulo de Facturación</h3>
+        <ul class="checklist">
+            <li>Generar factura para turno</li>
+            <li>Generar factura para productos</li>
+            <li>Generar nota de crédito</li>
+            <li>Consultar factura</li>
+            <li>Verificar conexión ARCA</li>
+            <li>Listar facturas</li>
+        </ul>
+
+        <h3>26.15 Módulo de Caja</h3>
+        <ul class="checklist">
+            <li>Abrir caja</li>
+            <li>Registrar ingreso</li>
+            <li>Registrar egreso</li>
+            <li>Cerrar caja</li>
+            <li>Conteo de efectivo</li>
+            <li>Reporte de caja</li>
+        </ul>
+
+        <h3>26.16 Módulo de Sucursales</h3>
+        <ul class="checklist">
+            <li>Crear sucursal</li>
+            <li>Listar sucursales</li>
+            <li>Editar sucursal</li>
+            <li>Eliminar sucursal</li>
+            <li>Filtrado por sucursal</li>
+        </ul>
+
+        <h3>26.17 Módulo de Notificaciones</h3>
+        <ul class="checklist">
+            <li>Crear notificación</li>
+            <li>Listar notificaciones</li>
+            <li>Marcar como leída</li>
+            <li>Enviar email</li>
+            <li>Enviar WhatsApp</li>
+        </ul>
+
+        <h3>26.18 Módulo de WhatsApp</h3>
+        <ul class="checklist">
+            <li>Enviar mensaje de texto</li>
+            <li>Enviar plantilla</li>
+            <li>Crear plantilla</li>
+            <li>Flujo de reserva por WhatsApp</li>
+            <li>Recordatorios automáticos</li>
+            <li>Webhook de WhatsApp</li>
+        </ul>
+
+        <h3>26.19 Módulo de Reportes</h3>
+        <ul class="checklist">
+            <li>Dashboard administrativo</li>
+            <li>Reporte de turnos</li>
+            <li>Reporte financiero</li>
+            <li>Estadísticas de instructores</li>
+            <li>Reporte de stock</li>
+        </ul>
+
+        <h3>26.20 Módulo de Configuración</h3>
+        <ul class="checklist">
+            <li>Configuración general</li>
+            <li>Configuración de seña</li>
+            <li>Configuración de recordatorios</li>
+            <li>Configuración de integraciones</li>
+            <li>Configuración de tipo de negocio</li>
+        </ul>
+
+        <h3>26.21 Módulo de Administración</h3>
+        <ul class="checklist">
+            <li>Dashboard admin</li>
+            <li>Gestión de usuarios</li>
+            <li>Gestión de clientes</li>
+            <li>Gestión de depósitos</li>
+        </ul>
+
+        <h3>26.22 Módulo de E-commerce</h3>
+        <ul class="checklist">
+            <li>Listar ventas</li>
+            <li>Configurar integración</li>
+            <li>Sincronizar productos</li>
+            <li>Sincronizar ventas</li>
+            <li>Webhook de e-commerce</li>
+        </ul>
+
+        <h3>26.23 Módulo de Suscripciones</h3>
+        <ul class="checklist">
+            <li>Listar suscripciones</li>
+            <li>Crear suscripción</li>
+            <li>Renovar suscripción</li>
+            <li>Cancelar suscripción</li>
+            <li>Actualizar plan</li>
+            <li>Webhook de suscripción</li>
+        </ul>
+
+        <h3>26.24 Módulo de Super Administrador</h3>
+        <ul class="checklist">
+            <li>Listar tenants</li>
+            <li>Crear tenant</li>
+            <li>Editar tenant</li>
+            <li>Eliminar tenant</li>
+            <li>Ver detalle de tenant</li>
+        </ul>
+
+        <h3>26.25 Módulo de Onboarding</h3>
+        <ul class="checklist">
+            <li>Registro inicial</li>
+            <li>Configuración inicial</li>
+            <li>Configuración de pago</li>
+            <li>Activación de cuenta</li>
+        </ul>
+    </div>
+
+    <div class="info-box" style="margin-top: 40px;">
+        <h3>📝 Notas Finales</h3>
+        <p>Este documento debe ser actualizado cada vez que se agreguen nuevas funcionalidades al sistema. Se recomienda revisar este documento antes de comenzar cada sesión de testing para asegurar cobertura completa.</p>
+        <p><strong>Última actualización:</strong> <span id="fecha-actualizacion"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('fecha-actualizacion').textContent = new Date().toLocaleDateString('es-AR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

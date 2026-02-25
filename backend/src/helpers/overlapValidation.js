@@ -1,0 +1,104 @@
+// src/helpers/overlapValidation.js
+import { addMinutes } from "date-fns";
+
+export function toMySQLDateTime(val) {
+  if (!val) return null;
+  const d = (val instanceof Date) ? val : new Date(String(val));
+  if (Number.isNaN(d.getTime())) return null;
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+
+export function parseDateTime(s) {
+  if (!s) return null;
+  if (typeof s === "string" && /^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}(:\d{2})?$/.test(s)) {
+    if (s.length === 16) s += ":00";
+    return new Date(s.replace(" ", "T"));
+  }
+  const d = new Date(s);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/**
+ * Verifica solapes de turnos/ausencias para EL MISMO peluquero.
+ * Si hay solape => lanza Error.
+ * - db: pool o conn (ambos tienen .query)
+ * - useLock: true si estás dentro de BEGIN con `conn` para hacer FOR UPDATE (evita carreras).
+ */
+// src/helpers/overlapValidation.js
+export async function checkAppointmentOverlap(db, {
+  instructorId,
+  startTime,
+  endTime,
+  tenantId = null,
+  bufferMinutes = 10, // ✅ Por defecto 10 minutos entre turnos
+  excludeId = null,
+  useLock = true // ✅ Por defecto true
+}) {
+  if (!instructorId || !startTime || !endTime) {
+    throw new Error("Parámetros insuficientes para validar solape");
+  }
+
+  const startWithBuffer = addMinutes(startTime, -Number(bufferMinutes || 0));
+  const endWithBuffer = addMinutes(endTime, Number(bufferMinutes || 0));
+
+  const startStr = toMySQLDateTime(startWithBuffer);
+  const endStr = toMySQLDateTime(endWithBuffer);
+
+  // ✅ IGNORAMOS CANCELADOS
+  let sqlAppt = `
+    SELECT id
+    FROM appointment
+    WHERE instructor_id = ?
+  `;
+  const params = [Number(instructorId)];
+
+  if (tenantId) {
+    sqlAppt += " AND tenant_id = ?";
+    params.push(Number(tenantId));
+  }
+
+  sqlAppt += `
+      AND starts_at < ?
+      AND ends_at > ?
+      AND status IN ('scheduled','confirmed','deposit_paid','completed','pending_deposit')
+  `;
+
+  params.push(endStr, startStr);
+  if (excludeId) {
+    sqlAppt += " AND id <> ?";
+    params.push(Number(excludeId));
+  }
+  if (useLock) {
+    sqlAppt += " FOR UPDATE"; // ✅ CRÍTICO: bloquea las filas
+  }
+
+  const [appts] = await db.query(sqlAppt, params);
+
+  let sqlOff = `
+    SELECT id
+    FROM time_off
+    WHERE instructor_id = ?
+  `;
+  const paramsOff = [Number(instructorId)];
+
+  if (tenantId) {
+    sqlOff += " AND tenant_id = ?";
+    paramsOff.push(Number(tenantId));
+  }
+
+  sqlOff += `
+      AND starts_at < ?
+      AND ends_at > ?
+  `;
+  paramsOff.push(endStr, startStr);
+  if (useLock) {
+    sqlOff += " FOR UPDATE";
+  }
+
+  const [offs] = await db.query(sqlOff, paramsOff);
+
+  if (appts.length > 0 || offs.length > 0) {
+    throw new Error("Ese horario se superpone con otro turno o ausencia del peluquero");
+  }
+}

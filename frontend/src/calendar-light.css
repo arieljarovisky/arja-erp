@@ -1,0 +1,516 @@
+/* calendar-light.css
+   Estilos para el modo claro del calendario
+   FORZADO A SIEMPRE MODO CLARO - independiente del tema de la app
+*/
+
+/* ==========================================
+   MODO CLARO FORZADO - SIEMPRE ACTIVO
+   ========================================== */
+.calendar-light {
+  --fc-bg-primary: #e2e8f0;
+  --fc-bg-secondary: #cbd5e1;
+  --fc-border: #94a3b8;
+  --fc-text: #1e293b;
+  --fc-text-muted: #64748b;
+  --fc-text-secondary: #475569;
+}
+
+/* Base: Forzar fondo blanco en todo el calendario */
+.calendar-light .fc,
+.calendar-light .fc-scrollgrid,
+.calendar-light .fc-scrollgrid table,
+.calendar-light .fc-scrollgrid tbody,
+.calendar-light .fc-scrollgrid thead,
+.calendar-light .fc-scrollgrid tr,
+.calendar-light .fc-scrollgrid td,
+.calendar-light .fc-scrollgrid th {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+}
+
+/* Toolbar - Header de navegación */
+.calendar-light .fc-toolbar {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-bottom: 1px solid var(--fc-border) !important;
+  padding: 16px !important;
+}
+
+.calendar-light .fc-toolbar-title {
+  color: var(--fc-text) !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+}
+
+/* Botones del toolbar */
+.calendar-light .fc-button {
+  background-color: var(--fc-bg-primary) !important;
+  color: var(--fc-text) !important;
+  border: 1px solid var(--fc-border) !important;
+  font-weight: 500 !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s !important;
+}
+
+.calendar-light .fc-button:hover {
+  background-color: var(--fc-bg-secondary) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.calendar-light .fc-button:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.calendar-light .fc-button-primary,
+.calendar-light .fc-button-primary:not(:disabled) {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+.calendar-light .fc-button-primary:hover:not(:disabled) {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+.calendar-light .fc-button-active,
+.calendar-light .fc-button-active:not(:disabled) {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+/* Encabezados de columnas */
+.calendar-light .fc-col-header {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+}
+
+.calendar-light .fc-col-header-cell {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+  border-color: var(--fc-border) !important;
+  padding: 12px 8px !important;
+}
+
+.calendar-light .fc-col-header-cell-cushion {
+  color: var(--fc-text) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+}
+
+/* Vista de mes - Celdas de días */
+.calendar-light .fc-daygrid-day {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-color: var(--fc-border) !important;
+}
+
+.calendar-light .fc-daygrid-day-number {
+  color: var(--fc-text) !important;
+  font-weight: 600 !important;
+  padding: 8px !important;
+}
+
+.calendar-light .fc-day-today {
+  background-color: #eff6ff !important;
+  border-color: #3b82f6 !important;
+}
+
+.calendar-light .fc-day-today .fc-daygrid-day-number {
+  color: #3b82f6 !important;
+  font-weight: 700 !important;
+}
+
+.calendar-light .fc-day-other .fc-daygrid-day-number {
+  color: var(--fc-text-muted) !important;
+  opacity: 0.5 !important;
+}
+
+/* Vista de tiempo (timeGrid) */
+.calendar-light .fc-timegrid {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+}
+
+.calendar-light .fc-timegrid-col {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-right: 1px solid var(--fc-border) !important;
+}
+
+.calendar-light .fc-timegrid-slot {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-bottom: 1px solid var(--fc-border) !important;
+  height: 3em !important;
+}
+
+.calendar-light .fc-timegrid-slot-label {
+  color: var(--fc-text-muted) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  padding: 0 8px !important;
+}
+
+.calendar-light .fc-timegrid-slot-minor {
+  border-bottom-style: dotted !important;
+}
+
+/* Encabezados de recursos (instructores) */
+.calendar-light .fc-resource-timegrid .fc-col-header,
+.calendar-light .fc-resource-timegrid .fc-col-header table,
+.calendar-light .fc-resource-timegrid .fc-col-header table *,
+.calendar-light .fc-resource-timegrid .fc-col-header-cell {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+}
+
+.calendar-light .fc-resource-timegrid .fc-col-header-cell-cushion,
+.calendar-light .fc-resource-timegrid .fc-col-header-cell * {
+  color: var(--fc-text) !important;
+  font-weight: 600 !important;
+}
+
+.calendar-light .fc-resource-timegrid .fc-resource-cell {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+  border-color: var(--fc-border) !important;
+}
+
+.calendar-light .fc-resource-timegrid .fc-timegrid-col {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+}
+
+/* Eventos - mantener colores originales pero asegurar contraste */
+.calendar-light .fc-event {
+  border-radius: 6px !important;
+  border-width: 2px !important;
+  font-weight: 500 !important;
+  padding: 4px 8px !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.calendar-light .fc-event:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Texto dentro de eventos - blanco para mejor contraste */
+.calendar-light .fc-event,
+.calendar-light .fc-event *,
+.calendar-light .fc-event .fc-event-main,
+.calendar-light .fc-event .fc-event-title,
+.calendar-light .fc-event .fc-event-time,
+.calendar-light .fc-event span,
+.calendar-light .fc-event div {
+  color: #ffffff !important;
+}
+
+/* Vista de lista (Agenda) - Mejorada */
+.calendar-light .fc-list {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border: 1px solid var(--fc-border) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.calendar-light .fc-list-table {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+}
+
+.calendar-light .fc-list-table thead,
+.calendar-light .fc-list-table tbody {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+}
+
+.calendar-light .fc-list-table tr {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+}
+
+.calendar-light .fc-list-table td {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-color: var(--fc-border) !important;
+}
+
+/* Encabezados de días en agenda */
+.calendar-light .fc-list-day {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+  border-bottom: 2px solid var(--fc-border) !important;
+}
+
+.calendar-light .fc-list-day td {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+  border-color: var(--fc-border) !important;
+}
+
+.calendar-light .fc-list-day-cushion {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+  color: var(--fc-text) !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  padding: 16px !important;
+  text-transform: capitalize !important;
+}
+
+.calendar-light .fc-list-day-side-text,
+.calendar-light .fc-list-day-text {
+  color: var(--fc-text) !important;
+  font-weight: 700 !important;
+}
+
+/* Eventos en agenda */
+.calendar-light .fc-list-event {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-bottom: 1px solid var(--fc-border) !important;
+  border-top: 1px solid var(--fc-border) !important;
+  padding: 16px !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+}
+
+.calendar-light .fc-list-event td {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border-color: var(--fc-border) !important;
+  padding: 16px !important;
+}
+
+.calendar-light .fc-list-event:hover {
+  background-color: var(--fc-bg-secondary) !important;
+  transform: translateX(4px) !important;
+  box-shadow: -4px 0 0 0 #3b82f6 !important;
+}
+
+.calendar-light .fc-list-event:hover td {
+  background-color: var(--fc-bg-secondary) !important;
+}
+
+/* Tiempo del evento en agenda */
+.calendar-light .fc-list-event-time {
+  color: var(--fc-text-muted) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  min-width: 100px !important;
+  padding-right: 16px !important;
+  white-space: nowrap !important;
+}
+
+/* Título del evento en agenda */
+.calendar-light .fc-list-event-title {
+  color: var(--fc-text) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.5 !important;
+}
+
+.calendar-light .fc-list-event-title a {
+  color: var(--fc-text) !important;
+}
+
+/* Texto dentro de eventos de agenda */
+.calendar-light .fc-list-event * {
+  color: var(--fc-text) !important;
+}
+
+.calendar-light .fc-list-event:hover * {
+  color: var(--fc-text) !important;
+}
+
+/* Badges y elementos personalizados en agenda */
+.calendar-light .fc-list-event .text-foreground,
+.calendar-light .fc-list-event .text-foreground-muted,
+.calendar-light .fc-list-event span,
+.calendar-light .fc-list-event div {
+  color: inherit !important;
+}
+
+/* Dot indicador en agenda */
+.calendar-light .fc-list-event-dot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  border-width: 2px !important;
+  margin-right: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Resaltar eventos cancelados en agenda */
+.calendar-light .fc-list-event[data-status="cancelled"] {
+  opacity: 0.6 !important;
+  text-decoration: line-through !important;
+}
+
+.calendar-light .fc-list-event[data-status="cancelled"] .fc-list-event-title {
+  text-decoration: line-through !important;
+}
+
+/* Resaltar eventos confirmados en agenda */
+.calendar-light .fc-list-event[data-status="confirmed"] {
+  border-left: 3px solid #10b981 !important;
+}
+
+/* Resaltar eventos con seña pagada en agenda */
+.calendar-light .fc-list-event[data-status="deposit_paid"] {
+  border-left: 3px solid #f59e0b !important;
+}
+
+/* Popover */
+.calendar-light .fc-popover {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  border: 1px solid var(--fc-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.calendar-light .fc-popover-header {
+  background: var(--fc-bg-secondary) !important;
+  background-color: var(--fc-bg-secondary) !important;
+  border-bottom: 1px solid var(--fc-border) !important;
+  color: var(--fc-text) !important;
+  font-weight: 600 !important;
+  padding: 12px 16px !important;
+}
+
+.calendar-light .fc-popover-body {
+  background: var(--fc-bg-primary) !important;
+  background-color: var(--fc-bg-primary) !important;
+  color: var(--fc-text) !important;
+  padding: 12px !important;
+}
+
+/* Más enlaces */
+.calendar-light .fc-more-link {
+  color: #3b82f6 !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+.calendar-light .fc-more-link:hover {
+  background: rgba(59, 130, 246, 0.2) !important;
+  text-decoration: none !important;
+}
+
+/* Indicador de hora actual */
+.calendar-light .fc-timegrid-now-indicator-line {
+  border-color: #ef4444 !important;
+  border-width: 2px !important;
+}
+
+.calendar-light .fc-timegrid-now-indicator-arrow {
+  border-color: #ef4444 !important;
+}
+
+/* Scrollbar personalizado */
+.calendar-light .fc-scroller::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.calendar-light .fc-scroller::-webkit-scrollbar-track {
+  background: var(--fc-bg-secondary);
+  border-radius: 4px;
+}
+
+.calendar-light .fc-scroller::-webkit-scrollbar-thumb {
+  background: var(--fc-border);
+  border-radius: 4px;
+}
+
+.calendar-light .fc-scroller::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Texto personalizado */
+.calendar-light .text-foreground {
+  color: var(--fc-text) !important;
+}
+
+.calendar-light .text-foreground-muted {
+  color: var(--fc-text-muted) !important;
+}
+
+.calendar-light .text-foreground-secondary {
+  color: var(--fc-text-secondary) !important;
+}
+
+/* Clases de Tailwind personalizadas para el calendario */
+.calendar-light .text-xs,
+.calendar-light .text-sm,
+.calendar-light .text-base {
+  color: inherit !important;
+}
+
+/* Asegurar que los badges en agenda tengan buen contraste */
+.calendar-light .fc-list-event .bg-indigo-500\/20 {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+}
+
+.calendar-light .fc-list-event .bg-emerald-500\/20 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+.calendar-light .fc-list-event .bg-red-500\/20 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+.calendar-light .fc-list-event .bg-amber-500\/20 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+}
+
+/* Texto de badges en agenda - usar colores oscuros para mejor contraste */
+.calendar-light .fc-list-event .text-indigo-200 {
+  color: #4f46e5 !important;
+  font-weight: 600 !important;
+}
+
+.calendar-light .fc-list-event .text-emerald-200 {
+  color: #059669 !important;
+  font-weight: 600 !important;
+}
+
+.calendar-light .fc-list-event .text-red-200 {
+  color: #dc2626 !important;
+  font-weight: 600 !important;
+}
+
+.calendar-light .fc-list-event .text-amber-200 {
+  color: #d97706 !important;
+  font-weight: 600 !important;
+}
+
+/* Badges de instructor en agenda - mantener color pero ajustar texto */
+.calendar-light .fc-list-event span[style*="background-color"] {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Asegurar que los elementos dentro del calendario no hereden colores oscuros */
+.calendar-light .fc * {
+  box-sizing: border-box;
+}
+
+/* Bordes consistentes */
+.calendar-light .fc-scrollgrid {
+  border-color: var(--fc-border) !important;
+}
+
+.calendar-light .fc-scrollgrid-section > td {
+  border-color: var(--fc-border) !important;
+}

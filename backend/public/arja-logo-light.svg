@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="ARJA ERP">
+  <defs>
+    <linearGradient id="arja_left" x1="15%" y1="90%" x2="65%" y2="10%">
+      <stop offset="0%" stop-color="#4FD4E4" />
+      <stop offset="100%" stop-color="#13B5CF" />
+    </linearGradient>
+    <linearGradient id="arja_right" x1="30%" y1="0%" x2="95%" y2="90%">
+      <stop offset="0%" stop-color="#1AC3DF" />
+      <stop offset="100%" stop-color="#0D7FD4" />
+    </linearGradient>
+    <linearGradient id="arja_highlight" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#F6FDFF" />
+      <stop offset="100%" stop-color="#B9F4FF" />
+    </linearGradient>
+    <linearGradient id="arja_gear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A4F72" />
+      <stop offset="100%" stop-color="#08375D" />
+    </linearGradient>
+  </defs>
+
+  <rect x="10" y="10" width="200" height="200" rx="48" fill="#FFFFFF" />
+  <path d="M111 20L40 200h44l39-104 39 104h44L135 20z" fill="url(#arja_left)" />
+  <path d="M111 20L135 20 204 200h-42l-28-72-23-64z" fill="url(#arja_right)" />
+  <path d="M111 76l18 48h-56z" fill="url(#arja_highlight)" opacity="0.7" />
+  <path
+    d="M68 104h66l-15-15 11-11 34 34-34 34-11-11 15-15H68c-8.3 0-15 6.7-15 15 0 6.7 4.2 12.4 10.4 14.5l-12.6 12.6C41.7 147.6 36 135.2 36 121c0-23.2 18.8-42 42-42Z"
+    fill="#F8FEFF"
+    stroke="#13B5CF"
+    stroke-width="6"
+    stroke-linejoin="round"
+  />
+  <g transform="translate(148 116) scale(3.2)">
+    <path
+      d="M11.983 1.5a1.5 1.5 0 0 0-1.415.987l-.55 1.51a8.06 8.06 0 0 0-1.695.98l-1.518-.551a1.5 1.5 0 0 0-1.898.832l-1.5 3.897a1.5 1.5 0 0 0 .832 1.898l1.519.55a8.06 8.06 0 0 0 0 1.963l-1.52.55a1.5 1.5 0 0 0-.831 1.898l1.5 3.897a1.5 1.5 0 0 0 1.898.832l1.518-.55a8.06 8.06 0 0 0 1.695.98l.55 1.509a1.5 1.5 0 0 0 1.898.832l3.897-1.5a1.5 1.5 0 0 0 .832-1.898l-.55-1.519a8.06 8.06 0 0 0 .98-1.695l1.509-.55a1.5 1.5 0 0 0 .832-1.898l-1.5-3.897a1.5 1.5 0 0 0-1.898-.831l-1.519.55a8.06 8.06 0 0 0-1.695-.98l-.55-1.51A1.5 1.5 0 0 0 11.983 1.5Zm.017 6a3 3 0 1 1-3 3 3 3 0 0 1 3-3Z"
+      fill="url(#arja_gear)"
+    />
+  </g>
+</svg>

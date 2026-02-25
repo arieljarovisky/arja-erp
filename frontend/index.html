@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/arja-logo-light.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="/arja-logo-dark.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="/arja-logo-light.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARJA ERP | Sistema de Gestión Empresarial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- Protección temprana contra errores de DOM durante traducciones -->
+  <script>
+    (function() {
+      'use strict';
+      
+      // Función para detectar si la página está siendo traducida
+      function isPageTranslated() {
+        if (typeof document === 'undefined') return false;
+        try {
+          return document.documentElement.classList.contains('translated-ltr') ||
+                 document.documentElement.classList.contains('translated-rtl') ||
+                 document.body.classList.contains('translated-ltr') ||
+                 document.body.classList.contains('translated-rtl') ||
+                 document.querySelector('[data-google-translate]') !== null ||
+                 document.querySelector('script[src*="translate.googleapis.com"]') !== null;
+        } catch (e) {
+          return false;
+        }
+      }
+      
+      // Interceptar removeChild ANTES de que React se monte
+      if (typeof Node !== 'undefined' && Node.prototype.removeChild) {
+        const originalRemoveChild = Node.prototype.removeChild;
+        Node.prototype.removeChild = function(child) {
+          try {
+            // Verificar si el nodo es realmente hijo usando múltiples métodos
+            let isChild = false;
+            if (child && this) {
+              try {
+                // Método 1: contains
+                if (this.contains) {
+                  isChild = this.contains(child);
+                }
+                // Método 2: comparar parentNode
+                if (!isChild && child.parentNode === this) {
+                  isChild = true;
+                }
+                // Método 3: verificar en childNodes
+                if (!isChild && this.childNodes) {
+                  try {
+                    isChild = Array.prototype.indexOf.call(this.childNodes, child) !== -1;
+                  } catch (e) {
+                    // Si childNodes no es accesible, continuar
+                  }
+                }
+              } catch (e) {
+                // Si cualquier verificación falla, asumir que no es hijo
+                isChild = false;
+              }
+            }
+            
+            if (!isChild) {
+              // Si la página está siendo traducida, simplemente retornar sin error
+              if (isPageTranslated()) {
+                // Silenciar el error durante traducciones
+                return child;
+              }
+              // Si no está siendo traducida, lanzar el error normalmente
+              throw new DOMException('Failed to execute \'removeChild\' on \'Node\': The node to be removed is not a child of this node.', 'NotFoundError');
+            }
+            return originalRemoveChild.call(this, child);
+          } catch (error) {
+            // Si es un error de removeChild durante traducción, ignorarlo
+            if (isPageTranslated() && 
+                (error.name === 'NotFoundError' || error.name === 'DOMException') &&
+                (error.message && error.message.includes('removeChild'))) {
+              return child;
+            }
+            throw error;
+          }
+        };
+        // Marcar como protegido para evitar doble interceptación
+        Node.prototype.removeChild._translationProtected = true;
+      }
+      
+      // Interceptar insertBefore ANTES de que React se monte
+      if (typeof Node !== 'undefined' && Node.prototype.insertBefore) {
+        const originalInsertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function(newNode, referenceNode) {
+          try {
+            // Verificar si el nodo de referencia es realmente hijo usando múltiples métodos
+            let isReferenceChild = false;
+            if (referenceNode && this) {
+              try {
+                // Método 1: contains
+                if (this.contains) {
+                  isReferenceChild = this.contains(referenceNode);
+                }
+                // Método 2: comparar parentNode
+                if (!isReferenceChild && referenceNode.parentNode === this) {
+                  isReferenceChild = true;
+                }
+                // Método 3: verificar en childNodes
+                if (!isReferenceChild && this.childNodes) {
+                  try {
+                    isReferenceChild = Array.prototype.indexOf.call(this.childNodes, referenceNode) !== -1;
+                  } catch (e) {
+                    // Si childNodes no es accesible, continuar
+                  }
+                }
+              } catch (e) {
+                // Si cualquier verificación falla, asumir que no es hijo
+                isReferenceChild = false;
+              }
+            }
+            
+            // Si referenceNode es null, insertBefore funciona como appendChild
+            if (referenceNode === null) {
+              return originalInsertBefore.call(this, newNode, referenceNode);
+            }
+            
+            if (!isReferenceChild) {
+              // Si la página está siendo traducida, intentar appendChild como fallback
+              if (isPageTranslated()) {
+                // Silenciar el error durante traducciones y usar appendChild
+                try {
+                  return this.appendChild(newNode);
+                } catch (e) {
+                  // Si appendChild también falla, retornar el nodo sin insertar
+                  return newNode;
+                }
+              }
+              // Si no está siendo traducida, lanzar el error normalmente
+              throw new DOMException('Failed to execute \'insertBefore\' on \'Node\': The node before which the new node is to be inserted is not a child of this node.', 'NotFoundError');
+            }
+            return originalInsertBefore.call(this, newNode, referenceNode);
+          } catch (error) {
+            // Si es un error de insertBefore durante traducción, ignorarlo
+            if (isPageTranslated() && 
+                (error.name === 'NotFoundError' || error.name === 'DOMException') &&
+                (error.message && error.message.includes('insertBefore'))) {
+              // Intentar appendChild como fallback
+              try {
+                return this.appendChild(newNode);
+              } catch (e) {
+                return newNode;
+              }
+            }
+            throw error;
+          }
+        };
+        // Marcar como protegido para evitar doble interceptación
+        Node.prototype.insertBefore._translationProtected = true;
+      }
+      
+      // También observar cambios en el DOM para detectar traducción temprana
+      if (typeof document !== 'undefined' && document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          // Observar cambios en las clases del documento para detectar traducción
+          if (typeof MutationObserver !== 'undefined') {
+            const observer = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                  // La traducción puede haber comenzado, la protección ya está activa
+                }
+              });
+            });
+            
+            if (document.documentElement) {
+              observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
+              });
+            }
+            if (document.body) {
+              observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['class']
+              });
+            }
+          }
+        });
+      }
+    })();
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

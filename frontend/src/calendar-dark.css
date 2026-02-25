@@ -1,0 +1,1018 @@
+/* calendar-enhanced.css
+   Diseño Premium para FullCalendar - Dark Theme Mejorado
+   Optimizado para vistas: Mes, Semana y Agenda
+*/
+
+/* ==========================================
+   VARIABLES DE TEMA MEJORADAS
+   ========================================== */
+   .calendar-dark {
+    /* Colores base mejorados con gradientes sutiles */
+    --fc-page-bg: #0a0f1b;
+    --fc-surface-bg: #0f1825;
+    --fc-card-bg: #141f2e;
+    --fc-hover-bg: #000000;
+    --fc-selected-bg: #1e3247;
+    
+    /* Bordes y líneas con mejor contraste */
+    --fc-border-soft: rgba(255, 255, 255, 0.04);
+    --fc-border-medium: rgba(255, 255, 255, 0.08);
+    --fc-border-strong: rgba(255, 255, 255, 0.12);
+    --fc-divider: rgba(71, 85, 105, 0.4);
+    
+    /* Colores de texto mejorados - CORREGIDOS PARA MEJOR VISIBILIDAD */
+    --fc-text-primary: #e2e8f0;      /* Blanco suave para texto principal */
+    --fc-text-secondary: #cbd5e1;     /* Gris claro para texto secundario */
+    --fc-text-muted: #94a3b8;         /* Gris medio para texto menos importante */
+    --fc-text-disabled: #64748b;      /* Gris oscuro para texto deshabilitado */
+    
+    /* Colores de acento vibrantes */
+    --fc-accent-primary: #3b82f6;
+    --fc-accent-secondary: #8b5cf6;
+    --fc-accent-success: #10b981;
+    --fc-accent-warning: #f59e0b;
+    --fc-accent-danger: #ef4444;
+    --fc-accent-info: #06b6d4;
+    
+    /* Efectos y animaciones */
+    --fc-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --fc-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --fc-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+    --fc-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+    
+    --fc-radius-sm: 8px;
+    --fc-radius-md: 12px;
+    --fc-radius-lg: 16px;
+    --fc-radius-xl: 20px;
+    
+    /* Transiciones suaves */
+    --fc-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    display: block;
+    border-radius: var(--fc-radius-xl);
+    overflow: hidden;
+    background: var(--fc-page-bg);
+    box-shadow: var(--fc-shadow-lg);
+  }
+  
+  /* ==========================================
+     ESTILOS BASE MEJORADOS
+     ========================================== */
+  .calendar-dark .fc {
+    background-color: transparent;
+    color: var(--fc-text-primary);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Bordes mejorados con sombras sutiles */
+  .calendar-dark .fc-theme-standard td,
+  .calendar-dark .fc-theme-standard th {
+    border-color: var(--fc-border-soft);
+    position: relative;
+  }
+  
+  .calendar-dark .fc-scrollgrid {
+    border-color: var(--fc-border-medium);
+    border-radius: var(--fc-radius-lg);
+    overflow: hidden;
+  }
+  
+  /* ==========================================
+     TOOLBAR PREMIUM
+     ========================================== */
+  .calendar-dark .fc .fc-toolbar {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.03) 0%, 
+      rgba(139, 92, 246, 0.03) 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--fc-border-medium);
+    padding: 16px 20px;
+    margin-bottom: 0;
+    position: relative;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .calendar-dark .fc .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  
+  .calendar-dark .fc .fc-toolbar:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(59, 130, 246, 0.05) 50%, 
+      transparent 100%);
+    pointer-events: none;
+  }
+  
+  .calendar-dark .fc .fc-toolbar-title {
+    color: var(--fc-text-primary);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* ==========================================
+     BOTONES ESTILIZADOS
+     ========================================== */
+  .calendar-dark .fc .fc-button {
+    background: var(--fc-card-bg);
+    color: var(--fc-text-primary);
+    border: 1px solid var(--fc-border-medium);
+    font-weight: 500;
+    border-radius: var(--fc-radius-md);
+    padding: 10px 16px;
+    transition: var(--fc-transition);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--fc-shadow-sm);
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .calendar-dark .fc .fc-button:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0) 0%, 
+      rgba(255, 255, 255, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  
+  .calendar-dark .fc .fc-button:hover {
+    background: var(--fc-hover-bg);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+    box-shadow: var(--fc-shadow-md);
+  }
+  
+  .calendar-dark .fc .fc-button:hover:before {
+    opacity: 1;
+  }
+  
+  .calendar-dark .fc .fc-button-primary,
+  .calendar-dark .fc .fc-button-primary:not(:disabled).fc-button-active {
+    background: linear-gradient(135deg, var(--fc-accent-primary), var(--fc-accent-secondary));
+    color: #fff;
+    border: none;
+    box-shadow: var(--fc-shadow-md), var(--fc-shadow-glow);
+  }
+  
+  .calendar-dark .fc .fc-button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--fc-shadow-lg), 0 0 30px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* ==========================================
+     VISTA MENSUAL MEJORADA
+     ========================================== */
+  .calendar-dark .fc-dayGridMonth-view {
+    padding: 8px;
+  }
+  
+  /* Encabezados de días con estilo */
+  .calendar-dark .fc .fc-col-header {
+    background: var(--fc-surface-bg) !important;
+    background-color: var(--fc-surface-bg) !important;
+    border-radius: var(--fc-radius-md) var(--fc-radius-md) 0 0;
+  }
+  
+  .calendar-dark .fc .fc-col-header-cell {
+    padding: 16px 8px;
+    text-align: center;
+    border-right: 1px solid var(--fc-border-soft);
+    position: relative;
+    background: var(--fc-surface-bg) !important;
+    background-color: var(--fc-surface-bg) !important;
+  }
+
+  /* Forzar fondo oscuro en TODOS los encabezados */
+  .calendar-dark .fc-col-header,
+  .calendar-dark .fc-col-header table,
+  .calendar-dark .fc-col-header thead,
+  .calendar-dark .fc-col-header tbody,
+  .calendar-dark .fc-col-header tr,
+  .calendar-dark .fc-col-header td,
+  .calendar-dark .fc-col-header th {
+    background: var(--fc-surface-bg) !important;
+    background-color: var(--fc-surface-bg) !important;
+  }
+  
+  .calendar-dark .fc .fc-col-header-cell:last-child {
+    border-right: none;
+  }
+  
+  .calendar-dark .fc .fc-col-header-cell-cushion {
+    color: var(--fc-text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  
+  /* Celdas del día mejoradas */
+  .calendar-dark .fc .fc-daygrid-day {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border: 1px solid var(--fc-border-soft);
+    transition: var(--fc-transition);
+    position: relative;
+  }
+  
+  /* Hover effects for month cells */
+  .calendar-dark .fc .fc-daygrid-day:hover {
+    background: var(--fc-hover-bg) !important;
+    border-color: var(--fc-border-medium);
+    box-shadow: var(--fc-shadow-sm);
+    z-index: 2;
+  }
+  
+  /* Números del día con mejor contraste */
+  .calendar-dark .fc .fc-daygrid-day-number {
+    color: var(--fc-text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 8px;
+    line-height: 1;
+  }
+  
+  /* Día actual resaltado */
+  .calendar-dark .fc .fc-day-today {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.1) 0%, 
+      rgba(139, 92, 246, 0.1) 100%) !important;
+    border-color: var(--fc-accent-primary) !important;
+    position: relative;
+  }
+  
+  .calendar-dark .fc .fc-day-today:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--fc-accent-primary);
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  
+  .calendar-dark .fc .fc-day-today .fc-daygrid-day-number {
+    color: var(--fc-accent-primary);
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Días del mes anterior/siguiente */
+  .calendar-dark .fc .fc-day-other {
+    opacity: 0.3;
+  }
+  
+  /* ==========================================
+     EVENTOS MEJORADOS PARA MODO OSCURO
+     ========================================== */
+  .calendar-dark .fc-event {
+    border-radius: var(--fc-radius-sm);
+    border-width: 2px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    position: relative;
+    transition: var(--fc-transition);
+    overflow: hidden;
+    /* Asegurar que el texto siempre sea legible */
+    color: #ffffff !important;
+  }
+
+  /* Forzar texto blanco en todos los elementos internos del evento */
+  .calendar-dark .fc-event *,
+  .calendar-dark .fc-event .fc-event-main,
+  .calendar-dark .fc-event .fc-event-title,
+  .calendar-dark .fc-event .fc-event-time,
+  .calendar-dark .fc-event .fc-sticky {
+    color: #ffffff !important;
+  }
+
+  /* Eventos en vista de lista - texto legible */
+  .calendar-dark .fc-list-event {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    color: var(--fc-text-primary) !important;
+  }
+
+  .calendar-dark .fc-list-event .fc-list-event-title {
+    color: var(--fc-text-primary) !important;
+  }
+  
+  .calendar-dark .fc-list-event .fc-list-event-time {
+    color: var(--fc-text-secondary) !important;
+  }
+
+  /* Texto personalizado en eventos */
+  .calendar-dark .fc-event .text-foreground {
+    color: #ffffff !important;
+  }
+
+  /* Hover en eventos */
+  .calendar-dark .fc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--fc-shadow-md);
+    filter: brightness(1.1);
+  }
+
+  /* ==========================================
+     DRAG AND DROP - ESTILOS MEJORADOS
+     ========================================== */
+  /* Cursor de arrastre moderno - manito/puño */
+  .calendar-dark .fc-event.fc-event-start-editable,
+  .calendar-dark .fc-event.fc-event-duration-editable,
+  .calendar-dark .fc-event.fc-event-resource-editable,
+  .calendar-dark [draggable="true"] {
+    cursor: grab !important;
+    cursor: -webkit-grab !important;
+    cursor: -moz-grab !important;
+  }
+
+  .calendar-dark .fc-event.fc-event-start-editable:active,
+  .calendar-dark .fc-event.fc-event-duration-editable:active,
+  .calendar-dark .fc-event.fc-event-resource-editable:active,
+  .calendar-dark [draggable="true"]:active {
+    cursor: grabbing !important;
+    cursor: -webkit-grabbing !important;
+    cursor: -moz-grabbing !important;
+  }
+  
+  /* Cursor pointer moderno para elementos clickeables */
+  .calendar-dark .fc-event,
+  .calendar-dark [role="button"],
+  .calendar-dark button {
+    cursor: pointer !important;
+  }
+
+  /* Evento siendo arrastrado */
+  .calendar-dark .fc-event.fc-event-dragging {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: var(--fc-shadow-lg), 0 0 20px rgba(59, 130, 246, 0.4);
+    z-index: 9999;
+    border: 2px dashed var(--fc-accent-primary);
+  }
+
+  /* Indicador de zona de drop válida */
+  .calendar-dark .fc-timegrid-slot.fc-timegrid-slot-minor.fc-timegrid-slot-highlight,
+  .calendar-dark .fc-daygrid-day.fc-day-today.fc-day-highlight {
+    background: rgba(59, 130, 246, 0.1);
+    border: 2px dashed var(--fc-accent-primary);
+  }
+
+  /* Efecto visual al pasar sobre una zona válida para drop */
+  .calendar-dark .fc-timegrid-col.fc-timegrid-col-highlight,
+  .calendar-dark .fc-daygrid-day.fc-day-highlight {
+    background: rgba(59, 130, 246, 0.05);
+    border-color: var(--fc-accent-primary);
+  }
+
+  /* Eventos no editables (cancelados) */
+  .calendar-dark .fc-event.fc-event-cancelled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Resize handles visibles */
+  .calendar-dark .fc-event-resizer {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    transition: var(--fc-transition);
+  }
+
+  .calendar-dark .fc-event-resizer:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+  }
+
+  /* Feedback visual al cambiar de recurso */
+  .calendar-dark .fc-resource-timegrid .fc-timegrid-col.fc-timegrid-col-highlight {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.1) 0%, 
+      rgba(139, 92, 246, 0.1) 100%);
+    border-left: 3px solid var(--fc-accent-primary);
+  }
+  
+  /* Estados de eventos */
+  .calendar-dark .fc-event.fc-event-confirmed {
+    box-shadow: 0 0 0 1px var(--fc-accent-success), var(--fc-shadow-sm);
+  }
+  
+  .calendar-dark .fc-event.fc-event-cancelled {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+  
+  .calendar-dark .fc-event.fc-event-pending {
+    border-style: dashed;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  /* ==========================================
+     VISTA SEMANAL Y DE TIEMPO
+     ========================================== */
+  .calendar-dark .fc-timegrid {
+    background: var(--fc-card-bg);
+  }
+  
+  .calendar-dark .fc-timegrid-slot {
+    height: 3em;
+    border-bottom: 1px solid var(--fc-border-soft);
+  }
+  
+  .calendar-dark .fc-timegrid-slot-label {
+    color: var(--fc-text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0 8px;
+  }
+  
+  .calendar-dark .fc-timegrid-slot-minor {
+    border-bottom-style: dotted;
+    border-color: var(--fc-border-soft);
+  }
+  
+  /* Línea del tiempo actual */
+  .calendar-dark .fc-timegrid-now-indicator-line {
+    border-color: var(--fc-accent-danger);
+    border-width: 2px;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+  }
+  
+  .calendar-dark .fc-timegrid-now-indicator-arrow {
+    border-color: var(--fc-accent-danger);
+  }
+  
+  /* ==========================================
+     VISTA DE LISTA/AGENDA
+     ========================================== */
+  .calendar-dark .fc-list {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border: none;
+    border-radius: var(--fc-radius-lg);
+    overflow: hidden;
+  }
+  
+  .calendar-dark .fc-list-view {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+  }
+  
+  .calendar-dark .fc-list-view table {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border: none !important;
+    border-collapse: collapse !important;
+  }
+  
+  .calendar-dark .fc-list-view table td,
+  .calendar-dark .fc-list-view table th {
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr td {
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  .calendar-dark .fc-list-day {
+    background: var(--fc-surface-bg);
+    border-bottom: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .calendar-dark .fc-list-day-cushion {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.05) 0%, 
+      rgba(139, 92, 246, 0.05) 100%);
+    padding: 8px 12px;
+    font-weight: 600;
+    color: var(--fc-text-primary);
+    margin: 0 !important;
+  }
+  
+  .calendar-dark .fc-list-event {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border-bottom: none !important;
+    border: none !important;
+    cursor: pointer;
+    transition: var(--fc-transition);
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .calendar-dark .fc-list-event:hover {
+    background: rgba(59, 130, 246, 0.2) !important;
+    background-color: rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  .calendar-dark .fc-list-event td {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border: none !important;
+    border-bottom: none !important;
+    padding: 4px 8px !important;
+    margin: 0 !important;
+  }
+  
+  .calendar-dark .fc-list-event:hover td {
+    background: rgba(59, 130, 246, 0.2) !important;
+    background-color: rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  .calendar-dark .fc-list-event-time {
+    color: var(--fc-text-secondary) !important;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 4px 8px !important;
+    margin: 0 !important;
+  }
+  
+  .calendar-dark .fc-list-event-title {
+    color: var(--fc-text-primary) !important;
+    font-weight: 600;
+    padding: 4px 8px !important;
+    margin: 0 !important;
+  }
+  
+  /* Reducir espacios entre filas de eventos */
+  .calendar-dark .fc-list-view tbody tr {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr.fc-list-event {
+    margin-bottom: 2px !important;
+  }
+  
+  /* Eliminar espacios en blanco en celdas vacías */
+  .calendar-dark .fc-list-view tbody tr:empty,
+  .calendar-dark .fc-list-view tbody tr td:empty {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Asegurar que todo el contenido de los eventos sea visible */
+  .calendar-dark .fc-list-event * {
+    color: var(--fc-text-primary) !important;
+  }
+  
+  .calendar-dark .fc-list-event .fc-list-event-time {
+    color: var(--fc-text-secondary) !important;
+  }
+  
+  /* Badge de instructores en vista de lista */
+  .calendar-dark .fc-list-event .badge-instructor {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--fc-radius-sm);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    margin-left: 8px;
+    color: white;
+    opacity: 0.9;
+  }
+  
+  /* ==========================================
+     TOOLTIPS Y POPOVERS
+     ========================================== */
+  .calendar-dark .fc-popover {
+    background: var(--fc-surface-bg);
+    border: 1px solid var(--fc-border-medium);
+    border-radius: var(--fc-radius-md);
+    box-shadow: var(--fc-shadow-lg);
+  }
+  
+  .calendar-dark .fc-popover-header {
+    background: rgba(59, 130, 246, 0.1);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--fc-border-medium);
+    font-weight: 600;
+    color: var(--fc-text-primary);
+  }
+  
+  .calendar-dark .fc-popover-body {
+    padding: 12px;
+    color: var(--fc-text-secondary);
+  }
+  
+  /* ==========================================
+     MODO MÓVIL Y RESPONSIVO
+     ========================================== */
+  @media (max-width: 768px) {
+    .calendar-dark .fc-toolbar {
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 16px;
+    }
+    
+    .calendar-dark .fc-toolbar-title {
+      font-size: 1.25rem;
+      order: -1;
+      word-break: break-word;
+    }
+    
+    .calendar-dark .fc-toolbar-chunk {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .calendar-dark .fc-button {
+      padding: 8px 12px;
+      font-size: 0.8125rem;
+      min-height: 36px;
+    }
+    
+    .calendar-dark .fc .fc-toolbar-chunk {
+      gap: 6px;
+    }
+    
+    .calendar-dark .fc-daygrid-day-frame {
+      min-height: 80px;
+    }
+    
+    .calendar-dark .fc-event {
+      font-size: 0.6875rem;
+      padding: 1px 4px;
+    }
+  }
+  
+  /* ==========================================
+     PERSONALIZACIÓN ADICIONAL
+     ========================================== */
+  /* Sombras en eventos para mayor profundidad */
+  .calendar-dark .fc-daygrid-event-harness:not(:last-child) {
+    margin-bottom: 2px;
+  }
+  
+  .calendar-dark .fc-daygrid-event {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Indicador de más eventos */
+  .calendar-dark .fc-more-link {
+    color: var(--fc-accent-info);
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 2px 4px;
+    border-radius: var(--fc-radius-sm);
+    background: rgba(6, 182, 212, 0.1);
+    transition: var(--fc-transition);
+  }
+  
+  .calendar-dark .fc-more-link:hover {
+    background: rgba(6, 182, 212, 0.2);
+    text-decoration: none;
+  }
+  
+  /* Scroll bars personalizados */
+  .calendar-dark .fc-scroller::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .calendar-dark .fc-scroller::-webkit-scrollbar-track {
+    background: var(--fc-surface-bg);
+    border-radius: var(--fc-radius-sm);
+  }
+  
+  .calendar-dark .fc-scroller::-webkit-scrollbar-thumb {
+    background: var(--fc-border-strong);
+    border-radius: var(--fc-radius-sm);
+    transition: var(--fc-transition);
+  }
+  
+  .calendar-dark .fc-scroller::-webkit-scrollbar-thumb:hover {
+    background: var(--fc-accent-primary);
+  }
+  
+  /* ==========================================
+     VISTA DE RECURSOS
+     ========================================== */
+  .calendar-dark .fc-resource-timeline-divider,
+  .calendar-dark .fc-resource-timegrid .fc-divider {
+    background: var(--fc-border-medium);
+  }
+  
+  .calendar-dark .fc-resource-area {
+    background: var(--fc-surface-bg);
+  }
+  
+  /* Header de recursos con fondo oscuro */
+  .calendar-dark .fc-resource-timegrid .fc-col-header {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border-bottom: 2px solid var(--fc-border-medium);
+  }
+  
+  .calendar-dark .fc-resource-timegrid .fc-resource-cell {
+    padding: 12px;
+    font-weight: 600;
+    text-align: center;
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    border-right: 1px solid var(--fc-border-medium);
+    color: var(--fc-text-secondary) !important;
+  }
+
+  /* Forzar fondo oscuro en TODOS los encabezados de recursos de manera más agresiva */
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell-cushion,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell-cushion > *,
+  .calendar-dark .fc-resource-timegrid .fc-scrollgrid-sync-inner,
+  .calendar-dark .fc-resource-timegrid .fc-scrollgrid-sync-inner > *,
+  .calendar-dark .fc-resource-timegrid .fc-col-header tbody td,
+  .calendar-dark .fc-resource-timegrid .fc-col-header thead td,
+  .calendar-dark .fc-resource-timegrid .fc-col-header tbody tr,
+  .calendar-dark .fc-resource-timegrid .fc-col-header thead tr {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    color: var(--fc-text-secondary) !important;
+  }
+  
+  /* Columnas de recursos con hover sutil */
+  .calendar-dark .fc-resource-timegrid .fc-timegrid-col:hover {
+    background: rgba(59, 130, 246, 0.03);
+  }
+  
+  /* Encabezados de columnas de recursos - fondo oscuro */
+  .calendar-dark .fc-col-header-cell.fc-resource,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell,
+  .calendar-dark .fc-resource-timegrid .fc-col-header,
+  .calendar-dark .fc-resource-timegrid .fc-col-header .fc-col-header-cell,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell-cushion,
+  .calendar-dark .fc-resource-timegrid .fc-scrollgrid-sync-inner {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    color: var(--fc-text-secondary) !important;
+  }
+
+  .calendar-dark .fc-col-header-cell.fc-resource .fc-col-header-cell-cushion,
+  .calendar-dark .fc-col-header-cell.fc-resource .fc-scrollgrid-sync-inner,
+  .calendar-dark .fc-col-header-cell.fc-resource *,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell *,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell-cushion *,
+  .calendar-dark .fc-resource-timegrid .fc-scrollgrid-sync-inner * {
+    color: var(--fc-text-secondary) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  /* Forzar fondo oscuro en TODOS los encabezados de recursos */
+  .calendar-dark .fc-resource-timegrid .fc-col-header tbody tr,
+  .calendar-dark .fc-resource-timegrid .fc-col-header tbody td,
+  .calendar-dark .fc-resource-timegrid .fc-col-header thead tr,
+  .calendar-dark .fc-resource-timegrid .fc-col-header thead td {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+  }
+  
+  /* ==========================================
+     ALTURA MÍNIMA PARA CELDAS
+     ========================================== */
+  .calendar-dark .fc-daygrid-day-frame {
+    min-height: 120px;
+    padding: 4px;
+  }
+  
+  @media (min-width: 1024px) {
+    .calendar-dark .fc-daygrid-day-frame {
+      min-height: 140px;
+    }
+  }
+  
+  /* ==========================================
+     MEJORAS FINALES
+     ========================================== */
+  /* Sombra general del calendario */
+  .calendar-dark {
+    position: relative;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Efecto de profundidad en eventos */
+  .calendar-dark .fc .fc-daygrid-event-harness {
+    margin: 2px 4px;
+  }
+  
+  /* Estados de eventos con colores */
+  .calendar-dark .fc-event-confirmed {
+    border-left: 3px solid var(--fc-accent-success) !important;
+  }
+  
+  .calendar-dark .fc-event-cancelled {
+    opacity: 0.6;
+    background: var(--fc-text-disabled) !important;
+  }
+  
+  .calendar-dark .fc-event-pending {
+    border: 1px dashed var(--fc-accent-warning) !important;
+  }
+  
+  /* Mejora final para la navegación */
+  .calendar-dark .fc .fc-button-group {
+    box-shadow: var(--fc-shadow-sm);
+    border-radius: var(--fc-radius-md);
+    overflow: hidden;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  
+  .calendar-dark .fc .fc-button-group .fc-button {
+    border-radius: var(--fc-radius-md);
+    margin: 0;
+    border-right: 1px solid var(--fc-border-soft);
+    flex-shrink: 0;
+  }
+  
+  .calendar-dark .fc .fc-button-group .fc-button:last-child {
+    border-right: 1px solid var(--fc-border-soft);
+  }
+  
+  /* Animación de carga */
+  @keyframes calendar-loading {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+  
+  .calendar-dark.loading {
+    animation: calendar-loading 1.5s ease-in-out infinite;
+  }
+  
+  /* ==========================================
+     CORRECCIÓN: Hover de eventos en vista Agenda - Fondo oscuro con acento azul
+     ========================================== */
+  /* Solo afectar el hover de los eventos de lista, no otros elementos */
+  .calendar-dark .fc-list-view tbody tr.fc-list-event {
+    background-color: var(--fc-card-bg) !important;
+    background: var(--fc-card-bg) !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr.fc-list-event td {
+    background-color: var(--fc-card-bg) !important;
+    background: var(--fc-card-bg) !important;
+    color: var(--fc-text-primary) !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    background: rgba(59, 130, 246, 0.2) !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  /* Celdas en hover - fondo azul oscuro */
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover td {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    background: rgba(59, 130, 246, 0.2) !important;
+    color: var(--fc-text-primary) !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+  
+  /* Texto legible en hover - mantener colores del tema */
+  .calendar-dark .fc-list-view tbody tr.fc-list-event .fc-list-event-time,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event .fc-list-event-title,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event td *,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event td span,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event td div {
+    color: var(--fc-text-primary) !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr.fc-list-event .fc-list-event-time {
+    color: var(--fc-text-secondary) !important;
+  }
+  
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover .fc-list-event-time,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover .fc-list-event-title,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover td *,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover td span,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover td div {
+    color: var(--fc-text-primary) !important;
+  }
+  
+  /* Asegurar que el contenido personalizado también sea visible */
+  .calendar-dark .fc-list-view tbody tr.fc-list-event .text-foreground,
+  .calendar-dark .fc-list-view tbody tr.fc-list-event:hover .text-foreground {
+    color: var(--fc-text-primary) !important;
+  }
+
+  /* ==========================================
+     FORZAR FONDO OSCURO EN ENCABEZADOS DE RECURSOS
+     ========================================== */
+  /* Reglas más específicas para encabezados de recursos */
+  .calendar-dark .fc-resource-timegrid .fc-col-header,
+  .calendar-dark .fc-resource-timegrid .fc-col-header table,
+  .calendar-dark .fc-resource-timegrid .fc-col-header table tbody,
+  .calendar-dark .fc-resource-timegrid .fc-col-header table thead,
+  .calendar-dark .fc-resource-timegrid .fc-col-header table tr,
+  .calendar-dark .fc-resource-timegrid .fc-col-header table td,
+  .calendar-dark .fc-resource-timegrid .fc-col-header table th {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    background-image: none !important;
+  }
+
+  /* Forzar todos los elementos dentro del header de recursos */
+  .calendar-dark .fc-resource-timegrid .fc-col-header * {
+    background-color: var(--fc-card-bg) !important;
+    color: var(--fc-text-secondary) !important;
+  }
+
+  /* Específico para las celdas de recursos en el header */
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell[data-resource-id],
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell[data-resource-id] * {
+    background: var(--fc-card-bg) !important;
+    background-color: var(--fc-card-bg) !important;
+    background-image: none !important;
+    color: var(--fc-text-secondary) !important;
+  }
+
+  /* Regla final con máxima prioridad para encabezados de recursos */
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell table,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell table tbody,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell table thead,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell table tr,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell table td,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell table th,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell .fc-col-header-cell-cushion,
+  .calendar-dark .fc-resource-timegrid .fc-col-header-cell .fc-scrollgrid-sync-inner {
+    background: #141f2e !important;
+    background-color: #141f2e !important;
+    background-image: none !important;
+    color: #cbd5e1 !important;
+  }
+
+  /* También para cualquier elemento con clase fc-resource */
+  .calendar-dark .fc-col-header-cell.fc-resource,
+  .calendar-dark .fc-col-header-cell.fc-resource table,
+  .calendar-dark .fc-col-header-cell.fc-resource table *,
+  .calendar-dark .fc-col-header-cell.fc-resource * {
+    background: #141f2e !important;
+    background-color: #141f2e !important;
+    background-image: none !important;
+    color: #cbd5e1 !important;
+  }

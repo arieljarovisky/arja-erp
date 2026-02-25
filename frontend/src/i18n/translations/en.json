@@ -1,0 +1,790 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "actions": "Actions",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "unsavedChanges": "You have unsaved changes",
+    "optional": "Optional"
+  },
+  "language": {
+    "spanish": "Español",
+    "english": "English",
+    "selectLanguage": "Language"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "appointments": "Appointments",
+    "classes": "Classes",
+    "routines": "Workout Routines",
+    "customers": "Customers",
+    "deposits": "Deposits",
+    "stock": "Stock",
+    "invoicing": "Invoicing",
+    "onlineSales": "Online Sales",
+    "cashRegister": "Cash Register",
+    "accounting": "Accounting",
+    "integrations": "Integrations",
+    "mobileApp": "Mobile App",
+    "notifications": "Notifications",
+    "users": "Users",
+    "professionals": "Instructors",
+    "branches": "Branches",
+    "config": "Configuration",
+    "management": "Management",
+    "administration": "Administration",
+    "settings": "Settings",
+    "theme": "Theme",
+    "logout": "Logout",
+    "superAdmin": "Super Admin Panel"
+  },
+  "whatsapp": {
+    "title": "WhatsApp Business",
+    "description": "Connect your WhatsApp number to automate bookings and reminders",
+    "connect": "Connect WhatsApp Business",
+    "disconnect": "Disconnect WhatsApp",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "status": "Status",
+    "connectTitle": "Connect your WhatsApp Business",
+    "connectDescription": "Connect your WhatsApp Business account with one click. You just need to authorize permissions in Meta and we'll handle the rest.",
+    "connecting": "Connecting...",
+    "phoneNumber": "WhatsApp Number",
+    "phoneNumberLabel": "WhatsApp Number",
+    "phoneNumberHint": "Include country code. Example: +5491123456789",
+    "assistantActive": "Assistant active",
+    "lastUpdate": "Last update:",
+    "supportAgent": "Help Button",
+    "supportAgentDescription": "Allow your customers to connect with a human agent when they press \"Help\"",
+    "enableSupportAgent": "Enable help button",
+    "supportAgentPhone": "Support agent phone number",
+    "supportAgentPhoneHint": "WhatsApp number of the agent who will receive requests (E.164 format, e.g.: 5491170590570)",
+    "botPersonalization": "Bot Personalization",
+    "botPersonalizationDescription": "Customize the messages that the WhatsApp bot sends to your customers. Use {name} to replace the customer's name.",
+    "greeting": "Initial greeting",
+    "greetingHint": "Message that appears when the customer writes 'hello' for the first time",
+    "greetingWithName": "Greeting with name",
+    "greetingWithNameHint": "Message when the customer is already registered. Use {name} for the name",
+    "welcomeMessage": "Welcome message",
+    "welcomeMessageHint": "Text that appears in the bot's main menu",
+    "welcomeFullMessage": "Full welcome message (optional)",
+    "welcomeFullMessageHint": "Longer and more personalized message that appears in the main menu. You can use {name} to include the customer's name. If empty, the short welcome message will be used.",
+    "nameRequest": "Name request",
+    "nameRequestHint": "Message to ask the new customer for their name",
+    "branchSelection": "Branch selection",
+    "branchSelectionHint": "Message when there are multiple branches available",
+    "serviceSelectionHeader": "Header - Service selection",
+    "serviceSelectionHeaderHint": "Title when showing the service list",
+    "instructorSelectionBody": "Body - Professional selection",
+    "instructorSelectionBodyHint": "Text when showing the list of professionals/instructors",
+    "saveChangesNote": "Changes will be saved together with the rest of the configuration using the \"Save Changes\" button above"
+    ,"refreshPhoneId": "Refresh Phone ID"
+    ,"refreshingPhoneId": "Refreshing…"
+    ,"oauthConnectedMessage": "OAuth connected successfully. Enter your WhatsApp number and save it. Then you can enable the assistant when needed."
+    ,"connectOneClick": "Connect your WhatsApp Business account with one click."
+    ,"connectedSuccessTitle": "WhatsApp Business connected successfully!"
+    ,"connectedSuccessDescription": "Now enter your WhatsApp number and click 'Save number' to enable the assistant."
+    ,"oauthConnectedButNoBusinessTitle": "OAuth connected, but WhatsApp Business not configured"
+    ,"oauthConnectedButNoBusinessDescription": "The OAuth token was saved correctly, but your Business does not have a WhatsApp Business account yet. You can configure it in Meta Business Manager. The system will try to fetch the Phone Number ID automatically when you save the WhatsApp number."
+    ,"cantStartConnection": "Could not start WhatsApp Business connection"
+    ,"cantGenerateAuthUrl": "Could not generate authorization URL"
+    ,"disconnectConfirm": "Are you sure you want to disconnect WhatsApp Business? All credentials will be removed and you will not be able to send messages until you reconnect."
+    ,"disconnectedSuccess": "WhatsApp Business disconnected correctly"
+    ,"disconnectError": "Error disconnecting WhatsApp"
+    ,"assistantActivated": "WhatsApp assistant enabled."
+    ,"assistantDeactivated": "WhatsApp assistant disabled."
+    ,"invalidPhoneToast": "Enter the WhatsApp number with country code (e.g.: +54911...)"
+    ,"cantSavePhoneToast": "Could not save WhatsApp number"
+    ,"cantUpdateAssistantStatus": "Could not update assistant status"
+    ,"phoneIdUpdated": "Phone Number ID updated"
+    ,"cantRefreshPhoneId": "Could not refresh Phone Number ID"
+    ,"tutorialShow": "Show tutorial"
+    ,"tutorialHide": "Hide tutorial",
+    "tutorialTitle": "Connection tutorial",
+    "tutorial": {
+      "step1": "Create or access your Meta Business Manager and make sure you have a WhatsApp Business Account.",
+      "openMetaLink": "Open Meta Business Manager",
+      "step2": "Verify the phone number you will use in WhatsApp Business.",
+      "step3": "Click “Connect” to authorize with Meta and save the token.",
+      "step4": "Enter the phone number in international format (+54911...) and save.",
+      "step5": "Enable the assistant and test a send from a confirmed appointment.",
+      "step6": "If the Phone Number ID is missing after OAuth, use “Refresh Phone ID”."
+    },
+    "statusPanel": {
+      "readyLabel": "Integrated",
+      "readyDesc": "The assistant responds automatically using the centralized integration.",
+      "disabledLabel": "Paused",
+      "disabledDesc": "The assistant is paused. You can enable it again anytime.",
+      "oauthLabel": "OAuth connected",
+      "oauthDesc": "OAuth connected successfully. Enter your WhatsApp number and save it to enable the assistant.",
+      "pendingLabel": "Pending",
+      "pendingDesc": "Save your WhatsApp number to complete the setup."
+    },
+    "statusTips": {
+      "ready1": "The assistant replies automatically with your business information.",
+      "ready2": "You can send test messages or start campaigns from the support panel.",
+      "disabled1": "Enable the assistant to resume sending reminders and confirmations.",
+      "disabled2": "While paused, automations remain suspended.",
+      "oauth1": "OAuth connected successfully. Enter your WhatsApp number and save it.",
+      "oauth2": "Once the number is saved, you can enable the assistant manually.",
+      "pending1": "Save the number and contact us to finalize linking in Meta Business.",
+      "pending2": "When the connection is ready you'll be able to enable the assistant and send tests."
+    }
+  },
+  "config": {
+    "title": "Configuration",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "unsavedChanges": "You have unsaved changes",
+    "general": "General",
+    "businessType": "Business Type",
+    "workingHours": "Working Hours",
+    "calendarHours": "Calendar Hours",
+    "arca": "ARCA",
+    "mercadopago": "Mercado Pago",
+    "commissions": "Commissions",
+    "security": "Security",
+    "generalTitle": "General Configuration",
+    "generalDescription": "Basic information about your business",
+    "businessName": "Business name",
+    "businessNameHint": "The business name cannot be changed",
+    "timezone": "Timezone",
+    "currency": "Currency",
+    "dateFormat": "Date format",
+    "businessTypeTitle": "Business Type",
+    "workingHoursTitle": "Working Hours",
+    "calendarHoursTitle": "Calendar Hours",
+    "arcaTitle": "ARCA Electronic Invoicing",
+    "arcaDescription": "Configure the necessary data to issue electronic invoices with ARCA",
+    "arcaChecking": "Checking ARCA credentials...",
+    "arcaConnectionOk": "ARCA connection OK",
+    "arcaConnectionError": "Connection error",
+    "mpTitle": "Mercado Pago",
+    "commissionsTitle": "Commissions",
+    "securityTitle": "Security",
+    "changesApplyImmediately": "Changes will apply immediately after saving",
+    "noAccessTitle": "You don't have permission to view Configuration",
+    "noAccessDescription": "Ask an administrator to grant you access to this module."
+  },
+  "security": {
+    "description": "Your account security settings",
+    "twoFactorTitle": "Two-factor authentication (2FA)",
+    "twoFactorDescription": "Add an extra layer of security to your account with authentication codes",
+    "setup2fa": "Set up 2FA"
+  },
+  "membership": {
+    "emptyMessage": "No membership plans yet. Create at least one to enforce monthly billing.",
+    "name": "Name",
+    "price": "Price",
+    "duration": "Duration",
+    "status": "Status",
+    "actions": "Actions",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "activeAppointments": "Active appointments",
+    "billingDay": "Billing day",
+    "billingByPaymentDate": "Billing according to payment date",
+    "graceDays": "Grace",
+    "interest": "Interest",
+    "noInterest": "No interest",
+    "blocks": "Blocks",
+    "oneMonth": "1 month",
+    "months": "months",
+    "active": "Active",
+    "inactive": "Inactive",
+    "edit": "Edit",
+    "deactivate": "Deactivate",
+    "activate": "Activate"
+  },
+  "workingHours": {
+    "overtimeTitle": "Overtime calculation",
+    "overtimeDescription": "Hours worked outside the configured work schedule will be automatically counted as overtime. This calculation applies to attendance records and staff shifts.",
+    "sectionDescription": "Configure your business working hours per branch to calculate employee overtime",
+    "infoTitle": "What is this setting for?",
+    "infoTextWorkHours": "Working hours define the normal work schedule per branch. Any hour worked outside these hours will be considered overtime and automatically calculated for employees.",
+    "loadingBranches": "Loading branches...",
+    "noBranches": "No branches configured. Configure at least one branch to set working hours.",
+    "branchLabel": "Branch",
+    "expandAll": "Expand all",
+    "collapseAll": "Collapse all",
+    "bulkEnabledLabel": "Apply to all: enabled",
+    "activeDays": "Active days",
+    "startLabel": "Start",
+    "endLabel": "End",
+    "applyAll": "Apply to all",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "dayNames": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "startTimeLabel": "Start time",
+    "endTimeLabel": "End time"
+  },
+  "businessType": {
+    "description": "Configure the business type and enabled features",
+    "planFeaturesTitle": "Your Plan Features",
+    "planFeaturesDescription": "Here you can view the features available in your current plan and upgrade options if you need more capabilities.",
+    "currentPlanHint": "Your current plan",
+    "available": "Available",
+    "notIncluded": "Not included",
+    "upgradePlansTitle": "Available Plans for Upgrade",
+    "additionalFeaturesTitle": "Additional features:",
+    "contactSales": "Contact Sales",
+    "requestUpgrade": "Request Upgrade",
+    "maxPlanMessage": "You already have the most complete plan available. If you need custom features, contact our team.",
+    "features": {
+      "appointments": "Individual appointments",
+      "classes": "Class bookings",
+      "stock": "Inventory management",
+      "invoicing": "Invoicing"
+    },
+    "featureDescriptions": {
+      "appointments": "Manage individual appointments and bookings",
+      "classes": "Manage group classes and class bookings",
+      "stock": "Inventory and product control",
+      "invoicing": "Electronic invoicing with ARCA"
+    },
+    "customized": "Customized",
+    "notIncludedInPlan": "Not included in your plan",
+    "confirmTitle": "Confirm changes",
+    "confirmChangeType": "You are about to change the business type from \"{from}\" to \"{to}\".",
+    "confirmUpdateFeatures": "You are about to update the enabled features.",
+    "impactTitle": "Impact on modules",
+    "notAvailableInPlan": "Not available in your plan",
+    "willEnable": "Will be enabled",
+    "willDisable": "Will be disabled",
+    "unchanged": "Unchanged",
+    "changeTypeWarning": "Changing the business type will replace your current services with the defaults of the new type. Save or export your services if you need to keep them.",
+    "reviewAgain": "Review again",
+    "confirmAndSave": "Confirm and save",
+    "toasts": {
+      "contactOwnerManage": "Contact the system owner to manage these changes.",
+      "selectType": "Select a business type",
+      "noChanges": "There are no changes to save.",
+      "restoredDefaults": "Default features of the selected type have been restored.",
+      "needHigherPlan": "You need a higher plan to enable this feature.",
+      "contactOwnerChangeType": "Contact the system owner to change the business type and update your plan.",
+      "saveSuccessType": "Business type updated to {type}.",
+      "saveSuccessFeatures": "Features updated successfully.",
+      "saveErrorGeneric": "Could not save changes."
+    }
+  },
+  "calendar": {
+    "description": "Configure the time range that will be displayed in the calendar",
+    "infoTitle": "What is this setting for?",
+    "infoText": "Define the time range shown in the calendar. This lets you customize which hours of the day are visible in Day, Week and Agenda views.",
+    "startHourLabel": "Start time",
+    "startHourHint": "Minimum time shown in the calendar",
+    "endHourLabel": "End time",
+    "endHourHint": "Maximum time shown in the calendar"
+  },
+  "arca": {
+    "sectionTitle": "ARCA Electronic Invoicing",
+    "centralizedLabel": "✓ Centralized System",
+    "centralizedDescription": "You only need your CUIT. The system invoices on your behalf using centralized certificates. You do not need to configure your own certificates nor perform AFIP procedures.",
+    "cuitLabel": "Your CUIT",
+    "cuitHint": "Your 11-digit CUIT (no dashes). The system will invoice on your behalf using this CUIT.",
+    "puntoVentaLabel": "Point of Sale (Optional)",
+    "puntoVentaHint": "If you have a specific point of sale, enter it here. Otherwise the system will use the default.",
+    "checkingNote": "This may take a few seconds if the server queries AFIP.",
+    "verifyConnection": "Verify connection",
+    "howTitle": "How does centralized invoicing with ARCA work?",
+    "howDescription": "Our team maintains the certificates and credentials. We only need your CUIT to issue documents on your behalf.",
+    "tutorialShow": "View step-by-step tutorial (AFIP + ARCA)",
+    "tutorialHide": "Hide AFIP and ARCA tutorial",
+    "tutorialQuickTitle": "Quick tutorial",
+    "steps": {
+      "saveCuitTitle": "1. Save your CUIT",
+      "saveCuitText": "Enter the CUIT and save the configuration. The system uses it to generate your invoices.",
+      "verifyTitle": "2. Verify the connection",
+      "verifyText": "Use the Verify connection button to confirm the server is ready.",
+      "emitTestTitle": "3. Issue a test",
+      "emitTestText": "When the status is OK, generate a test invoice to confirm AFIP responds correctly."
+    },
+    "ownCertsTitle": "Do you want to use your own certificates?",
+    "ownCertsDescription": "Write to support and we will help you enable advanced mode. You will need to upload your .p12 certificate or the .crt and .key files, along with the password.",
+    "testTitle": "Generate Test Invoice",
+    "testDescription": "Generate a test invoice for $121 to verify everything works correctly",
+    "testGenerating": "Generating...",
+    "testCTA": "Test",
+    "testLabels": {
+      "number": "Number",
+      "pointOfSale": "Point of Sale",
+      "date": "Date",
+      "downloadPdf": "Download PDF"
+    },
+    "connectionOk": "ARCA connection OK",
+    "connectionError": "Connection error",
+    "cuitConfigured": "Configured CUIT",
+    "credentialsMissing": "System credentials missing on the server.",
+    "serverConfigNeeded": "Server configuration required:",
+    "envSetupIntro": "The system administrator must configure in the",
+    "onServer": "file on the server:",
+    "optionA": "Option A: Intermediary Service (API Key)",
+    "apiKey": "Intermediary service API Key",
+    "cuit": "System CUIT",
+    "puntoVenta": "Point of sale",
+    "apiUrl": "Intermediary service URL",
+    "optionB": "Option B: System Certificates (P12)",
+    "configureInFile": "Configure in the",
+    "onServerFolder": "file on the server (in folder",
+    "cuitRequired": "System CUIT (required)",
+    "puntoVentaRequired": "Point of sale (required)",
+    "p12PathRequired": "Path to P12 certificate file (required)",
+    "p12PassRequired": "P12 certificate password (required)",
+    "wsaaService": "WSAA service (default: \"wsfe\")",
+    "wsaaUrl": "WSAA authentication service URL. If not specified, default URLs are used by environment.",
+    "wsfeUrl": "WSFE invoicing service URL. If not specified, default URLs are used by environment.",
+    "alternative": "Alternative:",
+    "alternativeText": "You can also use separate certificates (.crt and .key) by placing them in",
+    "andConfigure": "and configuring",
+    "and": "and"
+  },
+  "booking": {
+    "title": "Bookings and memberships",
+    "description": "Configure if the system requires up-to-date membership before allowing class enrollment",
+    "requireLabel": "Require up-to-date membership to enroll in classes",
+    "requireDescription": "Block class enrollment if the customer has no active subscription. Ideal for gyms or clubs. Individual appointments do not require membership.",
+    "noteDisabled": "When disabled, any customer can enroll in classes even without an active membership. Individual appointments are always available without membership (recommended for salons and studios without monthly fees).",
+    "membershipPlansTitle": "Membership plans",
+    "membershipPlansDescription": "Define the prices and durations of the fees you will control.",
+    "newPlanButton": "New plan",
+    "loadingPlans": "Loading plans..."
+  },
+  "mp": {
+    "checkCanReceive": "• Verify that your account is enabled to receive online payments",
+    "inTestingMode": "• Your account is in TEST mode. To receive real payments you need PRODUCTION mode",
+    "viewAccount": "View Mercado Pago account",
+    "tokenExpiredTitle": "Token expired",
+    "tokenExpiredDesc": "Access token has expired. Disconnect and reconnect to renew it.",
+    "connectedTitle": "Connected account",
+    "userIdLabel": "MP User ID",
+    "countryLabel": "Country",
+    "noAccountInfo": "Could not fetch detailed account information",
+    "noUserIdentified": "Could not identify user",
+    "connecting": "Connecting...",
+    "connectCTA": "Connect with Mercado Pago",
+    "authPrompt": "When connecting, Mercado Pago will request authorization to:",
+    "authItems": {
+      "createPreferences": "Create payment preferences",
+      "receiveNotifications": "Receive payment notifications",
+      "accessTransactions": "Access transaction information"
+    },
+    "sectionDescription": "Configure deposit payments",
+    "tokenExpires": "Token expires",
+    "modeLabel": "Mode",
+    "modeProduction": "🟢 Production",
+    "modeTesting": "🟡 Testing",
+    "depositFixedInfo": "All services will require a ${amount} deposit",
+    "infoImportantTitle": "Important information",
+    "deposit": {
+      "requireTitle": "Require deposit payment",
+      "requireDesc": "Customers must pay before confirming",
+      "percentageTitle": "Percentage",
+      "percentageDesc": "Calculate deposit as % of the service",
+      "fixedTitle": "Fixed amount",
+      "fixedDesc": "Same deposit for all services",
+      "percentageLabel": "Deposit percentage",
+      "percentageExample": "Example: Service $5000 → Deposit",
+      "fixedAmountLabel": "Fixed deposit amount"
+    }
+  },
+  "commissionsConfig": {
+    "title": "Commissions Configuration",
+    "description": "Parameters for commission calculation",
+    "defaultPercentageLabel": "Default commission (%)",
+    "defaultPercentageHint": "Percentage applied to new instructors",
+    "calculateOnDepositLabel": "Calculate on deposit",
+    "calculateOnDepositDesc": "Calculate commissions on the deposit amount instead of total price",
+    "showInDashboardLabel": "Show in dashboard",
+    "showInDashboardDesc": "Show commission metrics on the main dashboard",
+    "configureIndividualsPrefix": "To configure individual commissions per instructor,",
+    "clickHere": "click here"
+  },
+  "reminders": {
+    "title": "Appointment Reminders",
+    "description": "Configure automatic WhatsApp reminders for your customers",
+    "whatAreTitle": "What are automatic reminders?",
+    "whatAreDescription": "Reminders are sent automatically via WhatsApp to your customers before their appointments. This helps reduce no-shows and improve attendance.",
+    "enableLabel": "Enable automatic reminders",
+    "enableDesc": "Turn automatic reminders on or off. When enabled, the system will send messages automatically based on the configured hours.",
+    "whenLabel": "How long before the appointment should the reminder be sent?",
+    "whenHint": "Set how many hours before the appointment you want the reminder to be sent. Maximum 7 days (168 hours).",
+    "examplesTitle": "Practical examples:",
+    "examples": {
+      "oneDay": "• 24 hours = Sent 1 day before the appointment",
+      "twoDays": "• 48 hours = Sent 2 days before the appointment",
+      "twoHours": "• 2 hours = Sent 2 hours before the appointment",
+      "twelveHours": "• 12 hours = Sent 12 hours before (half day before)"
+    },
+    "importantTitle": "Important information",
+    "importantItems": {
+      "auto": "Reminders are sent automatically via WhatsApp to your customers",
+      "statuses": "Only sent for appointments with status confirmed or scheduled",
+      "once": "Each appointment receives a single reminder (not repeated)",
+      "interval": "The system checks every 15 minutes and sends reminders for appointments within the configured window",
+      "requirement": "Requirement: WhatsApp must be configured and active in the configuration section"
+    },
+    "immediate": "hours before (immediate)",
+    "oneHour": "hour before",
+    "oneDay": "day before (24 hours)",
+    "daysBefore": "days before ({hours} hours)",
+    "hoursBefore": "hours before"
+  },
+  "configGeneralInfo": {
+    "title": "Important information:",
+    "whatsappNumberHint": "WhatsApp number must include country code (e.g.: +54 for Argentina)",
+    "cuitRequiredHint": "CUIT is required to issue electronic invoices",
+    "dataUseHint": "These data can be used on invoices and communications"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Activity summary and real-time metrics",
+    "welcome": "Welcome",
+    "today": "Today",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "appointmentsToday": "Appointments today",
+    "allStatuses": "All statuses",
+    "confirmed": "Confirmed",
+    "completedPayments": "Completed payments",
+    "pending": "Pending",
+    "requiresAttention": "Requires attention",
+    "weeklyIncome": "Weekly Income",
+    "depositsCollected": "Deposits collected",
+    "income": "Income",
+    "incomeYear": "Income {year}",
+    "errorLoadingIncome": "Error loading income data",
+    "tryReload": "Try reloading the page",
+    "noIncomeData": "No income data to display",
+    "incomeWillAppear": "Income will appear when you have completed appointments",
+    "topServices": "Most requested services",
+    "errorLoadingServices": "Error loading most requested services",
+    "noServicesData": "No services data to display",
+    "servicesWillAppear": "Services will appear when you have scheduled appointments",
+    "todayAgenda": "Today's Agenda",
+    "scheduledAppointments": "{count} scheduled appointments",
+    "noAppointmentsToday": "No appointments scheduled for today",
+    "appointmentsWillAppear": "Today's appointments will appear here"
+  },
+  "customers": {
+    "title": "Customers",
+    "addCustomer": "Add Customer",
+    "searchPlaceholder": "Search by name or phone…",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "membership": "Membership",
+    "actions": "Actions",
+    "noCustomers": "No customers",
+    "totalCustomers": "{count} customer{plural} in total",
+    "loadingCustomers": "Loading customers…",
+    "errorLoadingCustomers": "Error loading customers",
+    "noCustomersFound": "No customers found",
+    "noCustomersYet": "No customers yet",
+    "customersWillAppear": "Customers will appear here when you create appointments or they register",
+    "noName": "(No name)",
+    "active": "Active",
+    "pending": "Pending",
+    "paused": "Paused",
+    "cancelled": "Cancelled",
+    "noSubscription": "No subscription"
+  },
+  "appointments": {
+    "title": "Appointments",
+    "newAppointment": "New Appointment",
+    "today": "Today",
+    "upcoming": "Upcoming"
+  },
+  "classes": {
+    "title": "Classes",
+    "newClass": "New Class"
+  },
+  "landing": {
+    "title": "ARJA ERP | Business Management System",
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "useCases": "Use Cases",
+      "docs": "Documentation"
+    },
+    "auth": {
+      "login": "Log In",
+      "startFree": "Start Free"
+    },
+    "hero": {
+      "title": "Manage Your Business",
+      "titleHighlight": "Intelligently",
+      "subtitle": "Complete ERP system to manage appointments, inventory, invoicing and more. With online payments, automatic notifications and integrated WhatsApp bot.",
+      "ctaPrimary": "Start Free",
+      "ctaSecondary": "View Features",
+      "trial": "✓ 14-day free trial • ✓ No credit card • ✓ Cancel anytime"
+    },
+    "features": {
+      "title": "Everything you need in one place",
+      "subtitle": "Powerful tools designed to grow your business",
+      "appointments": {
+        "title": "Appointment Management",
+        "description": "Intuitive calendar to manage appointments, schedules and availability of your professionals and services."
+      },
+      "customers": {
+        "title": "Customer Base",
+        "description": "Manage your customer base with complete history of services and preferences."
+      },
+      "payments": {
+        "title": "Mercado Pago Payments",
+        "description": "Accept deposits and online payments securely with full Mercado Pago integration."
+      },
+      "notifications": {
+        "title": "Automatic Notifications",
+        "description": "Automatic WhatsApp reminders to reduce no-shows and improve attendance."
+      },
+      "whatsapp": {
+        "title": "Integrated WhatsApp",
+        "description": "Smart bot that allows your customers to schedule appointments directly via WhatsApp."
+      },
+      "security": {
+        "title": "Secure and Reliable",
+        "description": "Data protected with enterprise-level security and automatic backups."
+      }
+    },
+    "pricing": {
+      "title": "Plans that fit your business",
+      "subtitle": "Choose the perfect plan for your business. All include free trial.",
+      "mostPopular": "Most Popular",
+      "startNow": "Start Now",
+      "trialNote": "All plans include 14-day free trial. No credit card required.",
+      "plans": {
+        "essential": {
+          "name": "Essential",
+          "description": "For businesses just starting out",
+          "features": {
+            "professionals": "Up to 2 professionals",
+            "appointments": "Smart appointment scheduling",
+            "reminders": "Automatic reminders",
+            "customers": "Unlimited customers",
+            "reports": "Basic reports"
+          }
+        },
+        "growth": {
+          "name": "Growth",
+          "description": "Ideal for expanding teams",
+          "features": {
+            "professionals": "Up to 6 professionals",
+            "payments": "Payments and deposits with Mercado Pago",
+            "whatsapp": "WhatsApp Bot for bookings",
+            "stock": "Inventory and commission control",
+            "dashboards": "Pro dashboards and reports",
+            "support": "Priority support"
+          }
+        },
+        "scale": {
+          "name": "Scale",
+          "description": "Operations with multiple branches",
+          "features": {
+            "professionals": "Unlimited professionals",
+            "branches": "Up to 2 branches operating simultaneously",
+            "multibranch": "Multi-branch with advanced roles",
+            "automation": "Automations and campaigns",
+            "afip": "AFIP / ARCA integration",
+            "dashboards": "Financial dashboards",
+            "whatsapp": "Advanced WhatsApp + special flows",
+            "onboarding": "Guided onboarding"
+          }
+        },
+        "enterprise": {
+          "name": "Custom Pro",
+          "description": "Custom implementation and dedicated support",
+          "features": {
+            "architecture": "Multi-tenant architecture",
+            "branches": "Unlimited custom branches",
+            "api": "Custom API and flows",
+            "integrations": "External integrations",
+            "training": "In-company training",
+            "sla": "SLA and 24/7 support",
+            "launch": "Launch plan with specialist"
+          }
+        }
+      }
+    },
+    "stats": {
+      "title": "Reliable and robust system",
+      "subtitle": "Enterprise-level technology within reach of your business",
+      "automation": {
+        "value": "100%",
+        "label": "Automation",
+        "description": "Of your management processes"
+      },
+      "availability": {
+        "value": "24/7",
+        "label": "Availability",
+        "description": "For your customers and your business"
+      },
+      "uptime": {
+        "value": "99.9%",
+        "label": "Uptime",
+        "description": "Service availability"
+      },
+      "features": {
+        "value": "+50",
+        "label": "Features",
+        "description": "Integrated in a single system"
+      }
+    },
+    "useCases": {
+      "title": "Ideal for any service business",
+      "subtitle": "From small startups to companies with multiple branches",
+      "appointments": {
+        "title": "Appointment Services",
+        "description": "Ideal for businesses that work with appointments: salons, barbershops, spas, beauty centers, clinics and more."
+      },
+      "teams": {
+        "title": "Team Services",
+        "description": "Manage multiple professionals, schedules, availability and resource allocation in real time."
+      },
+      "payments": {
+        "title": "Businesses with Online Payments",
+        "description": "Accept deposits, advance payments and recurring memberships integrated with Mercado Pago."
+      },
+      "automation": {
+        "title": "Automated Communication",
+        "description": "Automatic reminders, confirmations and follow-up via WhatsApp without manual intervention."
+      },
+      "invoicing": {
+        "title": "Electronic Invoicing",
+        "description": "Integrated AFIP/ARCA invoicing, inventory control, financial reports and accounting management."
+      },
+      "branches": {
+        "title": "Multiple Branches",
+        "description": "Manage multiple locations from a single system with centralized control and consolidated reports."
+      },
+      "fast": {
+        "title": "Fast Services",
+        "description": "For businesses that need agility: instant bookings, quick check-in and efficient management."
+      },
+      "regulated": {
+        "title": "Regulated Businesses",
+        "description": "Regulatory compliance, traceability, automatic backups and enterprise data security."
+      }
+    },
+    "cta": {
+      "title": "Ready to transform your business?",
+      "subtitle": "Start your free trial today. No credit card, no commitment.",
+      "startFree": "Start Free",
+      "viewPlans": "View Plans"
+    },
+    "footer": {
+      "description": "ERP management system for any service business. Appointments, inventory, invoicing, memberships and more.",
+      "product": "Product",
+      "support": "Support",
+      "legal": "Legal",
+      "features": "Features",
+      "pricing": "Pricing",
+      "useCases": "Use Cases",
+      "docs": "Documentation",
+      "help": "Help",
+      "contact": "Contact",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "copyright": "All rights reserved."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "skipToMain": "Skip to main content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "tenant": {
+    "business": "Business",
+    "globalPanel": "Global Panel"
+  },
+  "footer": {
+    "product": "Management System"
+  },
+  "login": {
+    "welcome": "Welcome",
+    "signInToContinue": "Sign in to continue",
+    "selectTenant": "Select your business",
+    "goToPanel": "Go to panel",
+    "rememberDevice": "Remember this device for 30 days",
+    "email": "Email",
+    "password": "Password",
+    "placeholderEmail": "you@example.com",
+    "activeSessionWarning": "There is an active session, log out to change account.",
+    "benefits": {
+      "freeTrial": "14-day free trial",
+      "noCard": "No credit card",
+      "cancelAnytime": "Cancel anytime"
+    },
+    "twoFactor": {
+      "title": "Authentication code"
+    }
+  },
+  "routines": {
+    "title": "Workout Routines",
+    "createRoutine": "Create routine",
+    "importRoutines": "Import routines",
+    "manageAndAssign": "Manage and assign workout routines to your customers",
+    "searchPlaceholder": "Search routines by name, description or difficulty…",
+    "loadingRoutines": "Loading routines…",
+    "errorLoadingRoutines": "Error loading routines",
+    "noRoutinesFound": "No routines found",
+    "noRoutinesYet": "No routines yet",
+    "tryAnotherSearch": "Try another search term",
+    "routinesWillAppear": "Routines will appear here when created",
+    "routineNameRequired": "Routine name is required",
+    "exerciseName": "Exercise name",
+    "addExercise": "Add exercise",
+    "noExercises": "No exercises. Click \"Add exercise\" to get started.",
+    "exerciseWithoutName": "Exercise without name",
+    "searchCustomer": "Search customer by name or phone...",
+    "noCustomersFound": "No customers found with that criteria",
+    "noCustomersAvailable": "No customers available",
+    "ofCustomers": "{filtered} of {total} customers",
+    "routineName": "Routine name",
+    "required": "*",
+    "importDocument": "The document must contain the routine name, exercises with sets and repetitions",
+    "autoDetect": "The system will automatically detect: name, exercises, sets, repetitions, rest and sections.",
+    "description": "Description (optional)",
+    "descriptionPlaceholder": "Describe the routine, objectives, etc...",
+    "importTitle": "Import routines",
+    "assignedTo": "Assigned to:",
+    "unassigned": "Unassigned",
+    "created": "Created:",
+    "editRoutine": "Edit routine",
+    "assignRoutine": "Assign routine",
+    "reassignRoutine": "Reassign routine",
+    "deleteRoutine": "Delete routine",
+    "assignRoutineTitle": "Assign routine: {name}",
+    "assignDirectly": "Assign directly to a customer (optional)",
+    "assigned": "Assigned",
+    "confirmDelete": "Are you sure you want to delete the routine \"{name}\"? This action cannot be undone.",
+    "uploadWordFile": "Upload a Word (.docx) file with a routine. The system will try to automatically extract the routine information.",
+    "wordFileLabel": "Word file (.docx)",
+    "wordExampleTitle": "Word format example:",
+    "importSuccess": "Routine \"{name}\" imported successfully from Word",
+    "importError": "Error importing routine from Word"
+  }
+}

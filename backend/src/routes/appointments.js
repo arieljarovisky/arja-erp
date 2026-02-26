@@ -2856,3 +2856,166 @@ async function scheduleDepositReminder({ tenantId, appointmentId }) {
     console.error("⚠️ [appointments] Recordatorio de seña falló:", error?.message || error);
   }
 }
+
+/* ================== AVISOS DE CLIENTES ================== */
+
+/**
+ * GET /api/appointment-alerts
+ * Lista todos los avisos de clientes pendientes de leer
+ */
+appointments.get("/appointment-alerts", requireAuth, async (req, res) => {
+  try {
+    const tenantId = req.tenantId;
+    const { unread_only, limit = 50, offset = 0 } = req.query;
+
+    let whereClause = "WHERE a.tenant_id = ?";
+    const params = [tenantId];
+
+    if (unread_only === "true") {
+      whereClause += " AND a.read_at IS NULL";
+    }
+
+    const [alerts] = await pool.query(
+      `SELECT 
+        a.id,
+        a.appointment_id,
+        a.customer_id,
+        a.alert_type,
+        a.message,
+        a.delay_minutes,
+        a.created_at,
+        a.read_at,
+        a.notified_at,
+        c.name as customer_name,
+        c.phone_e164 as customer_phone,
+        ap.starts_at as appointment_starts_at,
+        s.name as service_name,
+        i.name as instructor_name
+       FROM customer_appointment_alert a
+       JOIN customer c ON a.customer_id = c.id AND a.tenant_id = c.tenant_id
+       JOIN appointment ap ON a.appointment_id = ap.id AND a.tenant_id = ap.tenant_id
+       LEFT JOIN service s ON ap.service_id = s.id AND ap.tenant_id = s.tenant_id
+       LEFT JOIN instructor i ON ap.instructor_id = i.id AND ap.tenant_id = i.tenant_id
+       ${whereClause}
+       ORDER BY a.created_at DESC
+       LIMIT ? OFFSET ?`,
+      [...params, Number(limit), Number(offset)]
+    );
+
+    // Contar total
+    const [[{ total }]] = await pool.query(
+      `SELECT COUNT(*) as total FROM customer_appointment_alert a ${whereClause}`,
+      params
+    );
+
+    res.json({ ok: true, alerts, total, limit: Number(limit), offset: Number(offset) });
+  } catch (error) {
+    console.error("❌ [GET /appointment-alerts] Error:", error);
+    res.status(500).json({ ok: false, error: "Error al obtener avisos" });
+  }
+});
+
+/**
+ * GET /api/appointments/:id/alerts
+ * Lista los avisos de un turno específico
+ */
+appointments.get("/appointments/:id/alerts", requireAuth, async (req, res) => {
+  try {
+    const tenantId = req.tenantId;
+    const appointmentId = Number(req.params.id);
+
+    const [alerts] = await pool.query(
+      `SELECT 
+        a.id,
+        a.alert_type,
+        a.message,
+        a.delay_minutes,
+        a.created_at,
+        a.read_at,
+        a.notified_at,
+        c.name as customer_name,
+        c.phone_e164 as customer_phone
+       FROM customer_appointment_alert a
+       JOIN customer c ON a.customer_id = c.id AND a.tenant_id = c.tenant_id
+       WHERE a.appointment_id = ? AND a.tenant_id = ?
+       ORDER BY a.created_at DESC`,
+      [appointmentId, tenantId]
+    );
+
+    res.json({ ok: true, alerts });
+  } catch (error) {
+    console.error("❌ [GET /appointments/:id/alerts] Error:", error);
+    res.status(500).json({ ok: false, error: "Error al obtener avisos del turno" });
+  }
+});
+
+/**
+ * PUT /api/appointment-alerts/:id/read
+ * Marca un aviso como leído
+ */
+appointments.put("/appointment-alerts/:id/read", requireAuth, async (req, res) => {
+  try {
+    const tenantId = req.tenantId;
+    const alertId = Number(req.params.id);
+
+    const [result] = await pool.query(
+      `UPDATE customer_appointment_alert 
+       SET read_at = NOW() 
+       WHERE id = ? AND tenant_id = ? AND read_at IS NULL`,
+      [alertId, tenantId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ ok: false, error: "Aviso no encontrado o ya leído" });
+    }
+
+    res.json({ ok: true, message: "Aviso marcado como leído" });
+  } catch (error) {
+    console.error("❌ [PUT /appointment-alerts/:id/read] Error:", error);
+    res.status(500).json({ ok: false, error: "Error al marcar aviso como leído" });
+  }
+});
+
+/**
+ * PUT /api/appointment-alerts/read-all
+ * Marca todos los avisos pendientes como leídos
+ */
+appointments.put("/appointment-alerts/read-all", requireAuth, async (req, res) => {
+  try {
+    const tenantId = req.tenantId;
+
+    const [result] = await pool.query(
+      `UPDATE customer_appointment_alert 
+       SET read_at = NOW() 
+       WHERE tenant_id = ? AND read_at IS NULL`,
+      [tenantId]
+    );
+
+    res.json({ ok: true, message: `${result.affectedRows} aviso(s) marcado(s) como leído(s)` });
+  } catch (error) {
+    console.error("❌ [PUT /appointment-alerts/read-all] Error:", error);
+    res.status(500).json({ ok: false, error: "Error al marcar avisos como leídos" });
+  }
+});
+
+/**
+ * GET /api/appointment-alerts/count
+ * Obtiene el conteo de avisos no leídos
+ */
+appointments.get("/appointment-alerts/count", requireAuth, async (req, res) => {
+  try {
+    const tenantId = req.tenantId;
+
+    const [[{ count }]] = await pool.query(
+      `SELECT COUNT(*) as count 
+       FROM customer_appointment_alert 
+       WHERE tenant_id = ? AND read_at IS NULL`,
+      [tenantId]
+    );
+
+    res.json({ ok: true, count });
+  } catch (error) {
+    console.error("❌ [GET /appointment-alerts/count] Error:", error);
+    res.status(500).json({ ok: false, error: "Error al contar avisos" });
+  }
+});

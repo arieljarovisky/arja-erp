@@ -2618,23 +2618,56 @@ export default function ConfigPage() {
 
                 {arcaConnectionStatus && !arcaStatusLoading && (
                   <div className={`p-4 rounded-xl border ${arcaConnectionStatus.ok
-                    ? "bg-green-500/10 border-green-500/30"
+                    ? arcaConnectionStatus.isProduction === false
+                      ? "bg-amber-500/10 border-amber-500/30"
+                      : "bg-green-500/10 border-green-500/30"
                     : "bg-red-500/10 border-red-500/30"
                     }`}>
                     <div className="flex items-start gap-3">
                       {arcaConnectionStatus.ok ? (
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        arcaConnectionStatus.isProduction === false ? (
+                          <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                        ) : (
+                          <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        )
                       ) : (
                         <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                       )}
                       <div className="flex-1">
-                        <p className={`text-sm font-medium ${arcaConnectionStatus.ok ? "text-green-400" : "text-red-400"
+                        <p className={`text-sm font-medium ${arcaConnectionStatus.ok 
+                          ? arcaConnectionStatus.isProduction === false 
+                            ? "text-amber-400" 
+                            : "text-green-400" 
+                          : "text-red-400"
                           }`}>
-                          {arcaConnectionStatus.ok ? t("arca.connectionOk") : t("arca.connectionError")}
+                          {arcaConnectionStatus.ok 
+                            ? arcaConnectionStatus.isProduction === false 
+                              ? "⚠️ Modo HOMOLOGACIÓN (pruebas)" 
+                              : t("arca.connectionOk")
+                            : t("arca.connectionError")}
                         </p>
                         <p className="text-xs text-foreground-secondary mt-1">
                           {arcaConnectionStatus.message || arcaConnectionStatus.error}
                         </p>
+                        {arcaConnectionStatus.ok && arcaConnectionStatus.isProduction === false && (
+                          <div className="mt-3 p-3 rounded-lg bg-amber-500/20 border border-amber-500/40">
+                            <p className="text-xs font-semibold text-amber-300 mb-2">
+                              ⚠️ ATENCIÓN: Las facturas generadas NO son válidas fiscalmente
+                            </p>
+                            <p className="text-xs text-amber-200/80 mb-2">
+                              Estás conectado al ambiente de <strong>HOMOLOGACIÓN</strong> de AFIP. 
+                              Las facturas que generes son solo de prueba y no tienen validez legal.
+                            </p>
+                            <p className="text-xs text-foreground-secondary">
+                              Para facturar en <strong>PRODUCCIÓN</strong>, configurá en el archivo <code className="bg-background-secondary px-1 rounded">.env</code> del servidor:
+                            </p>
+                            <ul className="text-xs text-foreground-secondary mt-2 space-y-1 list-disc list-inside ml-2">
+                              <li><code>ARCA_ENVIRONMENT=produccion</code></li>
+                              <li>Certificados de producción de AFIP (no los de homologación)</li>
+                              <li>Reiniciar el servidor backend</li>
+                            </ul>
+                          </div>
+                        )}
                         {!arcaConnectionStatus.ok && arcaConnectionStatus.tenantCUIT && (
                           <p className="text-xs text-amber-400 mt-2">
                             {t("arca.cuitConfigured")}: <strong>{arcaConnectionStatus.tenantCUIT}</strong>

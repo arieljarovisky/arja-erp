@@ -735,7 +735,10 @@ router.post("/arca/generate", requireAuth, identifyTenant, checkInvoicingPermiss
         cae: caeValue,
         vto_cae: vtoCAEValue,
         ...facturaData
-      }
+      },
+      environment: facturaData.environment,
+      isProduction: facturaData.isProduction,
+      warning: facturaData.warning
     });
   } catch (error) {
     console.error("[POST /api/invoicing/arca/generate] Error:", error);

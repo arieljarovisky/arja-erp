@@ -145,6 +145,26 @@ export default function InvoicingPage() {
   const [creditNoteTarget, setCreditNoteTarget] = useState(null);
   const [creditNoteReason, setCreditNoteReason] = useState("");
   const [creditNoteError, setCreditNoteError] = useState("");
+  const [arcaEnvironment, setArcaEnvironment] = useState(null);
+
+  // Verificar ambiente de ARCA al cargar
+  useEffect(() => {
+    const checkArcaEnvironment = async () => {
+      try {
+        const response = await apiClient.get("/api/invoicing/arca/verify");
+        if (response.data?.ok) {
+          setArcaEnvironment({
+            isProduction: response.data.isProduction,
+            environment: response.data.environment,
+            warning: response.data.warning
+          });
+        }
+      } catch (error) {
+        logger.warn("No se pudo verificar el ambiente de ARCA:", error);
+      }
+    };
+    checkArcaEnvironment();
+  }, []);
 
   // Cargar facturas
   const { data: rawInvoices = [], loading, error, refetch } = useQuery(
@@ -419,6 +439,24 @@ export default function InvoicingPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
+      {/* Alerta de ambiente de homologación */}
+      {arcaEnvironment && arcaEnvironment.isProduction === false && (
+        <div className="p-4 rounded-xl border bg-amber-500/10 border-amber-500/30">
+          <div className="flex items-start gap-3">
+            <XCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-amber-400">
+                ⚠️ Modo HOMOLOGACIÓN - Las facturas NO son válidas fiscalmente
+              </p>
+              <p className="text-xs text-amber-200/80 mt-1">
+                Estás conectado al ambiente de pruebas de AFIP. Las facturas generadas son solo de prueba.
+                Para facturar en producción, contactá al administrador del sistema.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
         <div>

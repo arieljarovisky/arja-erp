@@ -32,6 +32,7 @@ import {
 import { listTenantBranches } from "../services/branches.js";
 import { getSection } from "../services/config.js";
 import { listPlans, getPlanDefinition } from "../services/subscriptionPlans.js";
+import { createNotification } from "./notifications.js";
 
 export const whatsapp = Router();
 
@@ -1203,6 +1204,159 @@ async function finalizeMembershipSubscriptionFlow(user, tenantId, sessionData = 
       membership: null,
     });
     await sendHomeMenu(user, tenantId, { name, features, header: "¿Querés hacer algo más?" });
+  }
+}
+
+// ============================================
+// FUNCIÓN: Enviar aviso de turno al negocio
+// ============================================
+async function sendAppointmentAlert({
+  user,
+  tenantId,
+  appointment,
+  customerId,
+  customerName,
+  alertType,
+  message,
+  delayMinutes,
+}) {
+  try {
+    // Formatear fecha del turno
+    const d = new Date(appointment.starts_at);
+    const fecha = d.toLocaleDateString("es-AR", {
+      weekday: "short",
+      day: "2-digit",
+      month: "2-digit",
+      timeZone: TIME_ZONE,
+    });
+    const hora = d.toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: TIME_ZONE,
+    });
+
+    // Etiquetas para tipos de aviso
+    const alertTypeLabels = {
+      late: "⏰ Llegada tarde",
+      cannot_attend: "❌ No puede asistir",
+      other: "📝 Otro motivo",
+    };
+    const alertTypeLabel = alertTypeLabels[alertType] || "Aviso";
+
+    // Construir mensaje para WhatsApp
+    const alertMessage = `⚠️ *Aviso de Cliente*\n\n` +
+      `📱 Cliente: ${customerName || "Sin nombre"}\n` +
+      `📞 Teléfono: ${user}\n` +
+      `📅 Turno: ${appointment.service_name || "Servicio"} - ${fecha} ${hora}\n` +
+      `👤 Profesional: ${appointment.instructor_name || "Sin asignar"}\n\n` +
+      `📋 Tipo: ${alertTypeLabel}\n` +
+      (delayMinutes ? `⏱️ Demora estimada: ${delayMinutes} minutos\n` : "") +
+      `💬 Mensaje: ${message}\n\n` +
+      `_Aviso recibido automáticamente_`;
+
+    // Obtener configuración de WhatsApp del tenant
+    const { getTenantWhatsAppHub } = await import("../services/whatsappHub.js");
+    const waConfig = await getTenantWhatsAppHub(tenantId).catch(() => null);
+    const supportAgentPhone = waConfig?.supportAgentPhone ||
+                             process.env.SUPPORT_AGENT_PHONE ||
+                             process.env.WHATSAPP_SUPPORT_PHONE;
+
+    // Enviar mensaje al agente/negocio por WhatsApp
+    let notifiedAt = null;
+    if (supportAgentPhone) {
+      try {
+        const result = await sendMessageToAgentWithFallback(supportAgentPhone, alertMessage, tenantId);
+        if (result.success) {
+          notifiedAt = new Date();
+          console.log(`[WA Alert] ✅ Aviso enviado al agente ${supportAgentPhone} (método: ${result.method})`);
+        } else {
+          console.warn(`[WA Alert] ⚠️ No se pudo enviar aviso al agente: ${result.originalError?.message || "Error desconocido"}`);
+        }
+      } catch (waError) {
+        console.error(`[WA Alert] ❌ Error enviando aviso por WhatsApp:`, waError.message);
+      }
+    } else {
+      console.warn(`[WA Alert] ⚠️ No hay número de agente configurado para tenant ${tenantId}`);
+    }
+
+    // Guardar aviso en la base de datos
+    try {
+      await pool.query(
+        `INSERT INTO customer_appointment_alert 
+         (tenant_id, appointment_id, customer_id, alert_type, message, delay_minutes, notified_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          tenantId,
+          appointment.id,
+          customerId,
+          alertType,
+          message,
+          delayMinutes,
+          notifiedAt,
+        ]
+      );
+      console.log(`[WA Alert] ✅ Aviso guardado en BD para turno ${appointment.id}`);
+    } catch (dbError) {
+      console.error(`[WA Alert] ❌ Error guardando aviso en BD:`, dbError.message);
+    }
+
+    // Crear notificación en el sistema para el instructor
+    try {
+      // Obtener el user_id del instructor (si existe)
+      const [[instructor]] = await pool.query(
+        `SELECT user_id FROM instructor WHERE id = ? AND tenant_id = ?`,
+        [appointment.instructor_id, tenantId]
+      );
+
+      if (instructor?.user_id) {
+        await createNotification({
+          tenantId,
+          userId: instructor.user_id,
+          type: "appointment_alert",
+          title: `Aviso de ${customerName || "cliente"}`,
+          message: `${alertTypeLabel}: ${message}`,
+          data: JSON.stringify({
+            appointmentId: appointment.id,
+            alertType,
+            delayMinutes,
+            customerPhone: user,
+          }),
+        });
+        console.log(`[WA Alert] ✅ Notificación creada para instructor ${instructor.user_id}`);
+      }
+
+      // También notificar a los admins del tenant
+      const [admins] = await pool.query(
+        `SELECT id FROM user WHERE tenant_id = ? AND role IN ('admin', 'owner') LIMIT 5`,
+        [tenantId]
+      );
+
+      for (const admin of admins) {
+        if (admin.id !== instructor?.user_id) {
+          await createNotification({
+            tenantId,
+            userId: admin.id,
+            type: "appointment_alert",
+            title: `Aviso de ${customerName || "cliente"}`,
+            message: `${alertTypeLabel}: ${message}`,
+            data: JSON.stringify({
+              appointmentId: appointment.id,
+              alertType,
+              delayMinutes,
+              customerPhone: user,
+            }),
+          });
+        }
+      }
+      console.log(`[WA Alert] ✅ Notificaciones creadas para ${admins.length} admin(s)`);
+    } catch (notifError) {
+      console.error(`[WA Alert] ❌ Error creando notificaciones:`, notifError.message);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error(`[WA Alert] ❌ Error general en sendAppointmentAlert:`, error);
+    return { success: false, error: error.message };
   }
 }
 
@@ -5498,12 +5652,13 @@ whatsapp.post("/webhooks/whatsapp", async (req, res) => {
             return res.sendStatus(200);
           }
 
-          // Guardar turno seleccionado y mostrar opciones
-          setStep(user, "canceling_appointment", {
+          // Guardar turno seleccionado y mostrar menú de opciones
+          setStep(user, "appointment_options", {
             appointment_id: appointmentId,
             appointment: appointment,
             tenantId: storedTenantId,
             customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
             features: session.data.features,
           });
 
@@ -5528,15 +5683,83 @@ whatsapp.post("/webhooks/whatsapp", async (req, res) => {
             `• Profesional: ${appointment.instructor_name}\n` +
             `• Fecha: ${fecha}\n` +
             `• Hora: ${hora}\n\n` +
-            `¿Querés cancelar este turno?`,
+            `¿Qué querés hacer con este turno?`,
             storedTenantId
           );
 
           await sendButtons(
             user,
             {
+              header: "Opciones del turno",
+              body: "Elegí una opción:",
+              buttons: [
+                { id: "apt_alert", title: "Avisar inconveniente" },
+                { id: "apt_cancel", title: "Cancelar turno" },
+                { id: "apt_back", title: "Volver" },
+              ],
+            },
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+      }
+
+      // ====== MENÚ DE OPCIONES DEL TURNO ======
+      if (session.step === "appointment_options") {
+        const storedTenantId = session.data.tenantId || tenantId;
+        const appointment = session.data.appointment;
+
+        // Volver a la lista de turnos
+        if (id === "apt_back") {
+          const myApts = await listUpcomingAppointmentsByPhone(user, {
+            limit: 10,
+            tenantId: storedTenantId
+          });
+
+          if (myApts.length) {
+            setStep(user, "viewing_appointments", {
+              appointments: myApts,
+              aptOffset: 0,
+              tenantId: storedTenantId,
+              customer_name: session.data.customer_name,
+              customerId: session.data.customerId,
+              features: session.data.features,
+            });
+
+            const rows = buildAppointmentRows(myApts, 0);
+            await sendList(user, {
+              header: "Tus próximos turnos",
+              body: "Elegí un turno para ver opciones:",
+              buttonText: "Ver turnos",
+              rows,
+            }, storedTenantId);
+          } else {
+            await sendWhatsAppText(user, "No tenés turnos próximos.", storedTenantId);
+            await sendHomeMenu(user, storedTenantId, {
+              name: session.data.customer_name,
+              features: session.data.features,
+            });
+            reset(user);
+          }
+          return res.sendStatus(200);
+        }
+
+        // Cancelar turno - ir al flujo de cancelación
+        if (id === "apt_cancel") {
+          setStep(user, "canceling_appointment", {
+            appointment_id: session.data.appointment_id,
+            appointment: appointment,
+            tenantId: storedTenantId,
+            customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
+            features: session.data.features,
+          });
+
+          await sendButtons(
+            user,
+            {
               header: "Cancelar turno",
-              body: "Confirmá la cancelación:",
+              body: "¿Confirmás que querés cancelar este turno?",
               buttons: [
                 { id: "cancel_confirm", title: "Sí, cancelar" },
                 { id: "cancel_back", title: "Volver" },
@@ -5546,6 +5769,282 @@ whatsapp.post("/webhooks/whatsapp", async (req, res) => {
           );
           return res.sendStatus(200);
         }
+
+        // Avisar inconveniente - mostrar tipos de aviso
+        if (id === "apt_alert") {
+          setStep(user, "appointment_alert_type", {
+            appointment_id: session.data.appointment_id,
+            appointment: appointment,
+            tenantId: storedTenantId,
+            customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
+            features: session.data.features,
+          });
+
+          await sendList(user, {
+            header: "Tipo de aviso",
+            body: "¿Qué querés avisar sobre tu turno?",
+            buttonText: "Ver opciones",
+            rows: [
+              { id: "alert_late", title: "Voy a llegar tarde", description: "Indicar minutos de demora" },
+              { id: "alert_cannot", title: "No puedo asistir", description: "Avisar que no podés ir" },
+              { id: "alert_other", title: "Otro motivo", description: "Escribir un mensaje" },
+              { id: "alert_back", title: "Volver", description: "Volver al menú anterior" },
+            ],
+          }, storedTenantId);
+          return res.sendStatus(200);
+        }
+      }
+
+      // ====== TIPO DE AVISO DEL TURNO ======
+      if (session.step === "appointment_alert_type") {
+        const storedTenantId = session.data.tenantId || tenantId;
+        const appointment = session.data.appointment;
+
+        // Volver al menú de opciones del turno
+        if (id === "alert_back") {
+          setStep(user, "appointment_options", {
+            appointment_id: session.data.appointment_id,
+            appointment: appointment,
+            tenantId: storedTenantId,
+            customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
+            features: session.data.features,
+          });
+
+          const d = new Date(appointment.starts_at);
+          const fecha = d.toLocaleDateString("es-AR", {
+            weekday: "long",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            timeZone: TIME_ZONE,
+          });
+          const hora = d.toLocaleTimeString("es-AR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: TIME_ZONE,
+          });
+
+          await sendWhatsAppText(
+            user,
+            `Turno seleccionado:\n\n` +
+            `• Servicio: ${appointment.service_name}\n` +
+            `• Profesional: ${appointment.instructor_name}\n` +
+            `• Fecha: ${fecha}\n` +
+            `• Hora: ${hora}\n\n` +
+            `¿Qué querés hacer con este turno?`,
+            storedTenantId
+          );
+
+          await sendButtons(
+            user,
+            {
+              header: "Opciones del turno",
+              body: "Elegí una opción:",
+              buttons: [
+                { id: "apt_alert", title: "Avisar inconveniente" },
+                { id: "apt_cancel", title: "Cancelar turno" },
+                { id: "apt_back", title: "Volver" },
+              ],
+            },
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+
+        // Llegada tarde - pedir minutos de demora
+        if (id === "alert_late") {
+          setStep(user, "appointment_alert_late", {
+            appointment_id: session.data.appointment_id,
+            appointment: appointment,
+            tenantId: storedTenantId,
+            customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
+            features: session.data.features,
+            alert_type: "late",
+          });
+
+          await sendWhatsAppText(
+            user,
+            `⏰ *Llegada tarde*\n\n` +
+            `¿Cuántos minutos de demora estimás?\n\n` +
+            `Escribí solo el número (ej: 15, 30, 45)`,
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+
+        // No puede asistir
+        if (id === "alert_cannot") {
+          setStep(user, "appointment_alert_cannot", {
+            appointment_id: session.data.appointment_id,
+            appointment: appointment,
+            tenantId: storedTenantId,
+            customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
+            features: session.data.features,
+            alert_type: "cannot_attend",
+          });
+
+          await sendWhatsAppText(
+            user,
+            `😔 *No podés asistir*\n\n` +
+            `Lamentamos que no puedas venir. ¿Querés dejar un mensaje o motivo? (opcional)\n\n` +
+            `Escribí tu mensaje o escribí *enviar* para avisar sin mensaje.`,
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+
+        // Otro motivo
+        if (id === "alert_other") {
+          setStep(user, "appointment_alert_other", {
+            appointment_id: session.data.appointment_id,
+            appointment: appointment,
+            tenantId: storedTenantId,
+            customer_name: session.data.customer_name,
+            customerId: session.data.customerId,
+            features: session.data.features,
+            alert_type: "other",
+          });
+
+          await sendWhatsAppText(
+            user,
+            `📝 *Otro motivo*\n\n` +
+            `Escribí el mensaje que querés enviar al negocio sobre tu turno:`,
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+      }
+
+      // ====== CAPTURA DE MINUTOS DE DEMORA ======
+      if (session.step === "appointment_alert_late" && msg.type === "text") {
+        const storedTenantId = session.data.tenantId || tenantId;
+        const appointment = session.data.appointment;
+        const text = (msg.text?.body || "").trim();
+        
+        // Extraer número de minutos
+        const minutes = parseInt(text.replace(/\D/g, ""), 10);
+        
+        if (isNaN(minutes) || minutes <= 0 || minutes > 180) {
+          await sendWhatsAppText(
+            user,
+            `Por favor, ingresá un número válido de minutos (entre 1 y 180).\n\nEjemplo: 15`,
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+
+        // Enviar aviso al negocio
+        await sendAppointmentAlert({
+          user,
+          tenantId: storedTenantId,
+          appointment,
+          customerId: session.data.customerId,
+          customerName: session.data.customer_name,
+          alertType: "late",
+          message: `Voy a llegar ${minutes} minutos tarde`,
+          delayMinutes: minutes,
+        });
+
+        await sendWhatsAppText(
+          user,
+          `✅ *Aviso enviado*\n\n` +
+          `Le avisamos al negocio que vas a llegar ${minutes} minutos tarde.\n\n` +
+          `¡Gracias por avisar! Te esperamos.`,
+          storedTenantId
+        );
+
+        // Volver al menú principal
+        await sendHomeMenu(user, storedTenantId, {
+          name: session.data.customer_name,
+          features: session.data.features,
+        });
+        reset(user);
+        return res.sendStatus(200);
+      }
+
+      // ====== CAPTURA DE MENSAJE "NO PUEDO ASISTIR" ======
+      if (session.step === "appointment_alert_cannot" && msg.type === "text") {
+        const storedTenantId = session.data.tenantId || tenantId;
+        const appointment = session.data.appointment;
+        const text = (msg.text?.body || "").trim();
+        
+        const message = text.toLowerCase() === "enviar" ? "" : text;
+
+        // Enviar aviso al negocio
+        await sendAppointmentAlert({
+          user,
+          tenantId: storedTenantId,
+          appointment,
+          customerId: session.data.customerId,
+          customerName: session.data.customer_name,
+          alertType: "cannot_attend",
+          message: message || "No puedo asistir al turno",
+          delayMinutes: null,
+        });
+
+        await sendWhatsAppText(
+          user,
+          `✅ *Aviso enviado*\n\n` +
+          `Le avisamos al negocio que no podés asistir a tu turno.\n\n` +
+          `Si querés reprogramar, podés reservar un nuevo turno desde el menú principal.`,
+          storedTenantId
+        );
+
+        // Volver al menú principal
+        await sendHomeMenu(user, storedTenantId, {
+          name: session.data.customer_name,
+          features: session.data.features,
+        });
+        reset(user);
+        return res.sendStatus(200);
+      }
+
+      // ====== CAPTURA DE MENSAJE "OTRO MOTIVO" ======
+      if (session.step === "appointment_alert_other" && msg.type === "text") {
+        const storedTenantId = session.data.tenantId || tenantId;
+        const appointment = session.data.appointment;
+        const text = (msg.text?.body || "").trim();
+        
+        if (!text || text.length < 3) {
+          await sendWhatsAppText(
+            user,
+            `Por favor, escribí un mensaje más detallado (mínimo 3 caracteres).`,
+            storedTenantId
+          );
+          return res.sendStatus(200);
+        }
+
+        // Enviar aviso al negocio
+        await sendAppointmentAlert({
+          user,
+          tenantId: storedTenantId,
+          appointment,
+          customerId: session.data.customerId,
+          customerName: session.data.customer_name,
+          alertType: "other",
+          message: text,
+          delayMinutes: null,
+        });
+
+        await sendWhatsAppText(
+          user,
+          `✅ *Aviso enviado*\n\n` +
+          `Tu mensaje fue enviado al negocio.\n\n` +
+          `¡Gracias por comunicarte!`,
+          storedTenantId
+        );
+
+        // Volver al menú principal
+        await sendHomeMenu(user, storedTenantId, {
+          name: session.data.customer_name,
+          features: session.data.features,
+        });
+        reset(user);
+        return res.sendStatus(200);
       }
 
       // ====== CONFIRMACIÓN DE CANCELACIÓN ======

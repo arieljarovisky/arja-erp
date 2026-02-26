@@ -1858,6 +1858,9 @@ export async function generarFactura(params) {
       const wsfeResult = await autorizarFacturaWSFE(facturaData, credentials, token, sign);
       console.log("[ARCA] Factura autorizada:", wsfeResult);
 
+      // Determinar el ambiente actual
+      const isProduction = ARCA_ENVIRONMENT === 'produccion';
+      
       return {
         success: true,
         cae: wsfeResult.cae,
@@ -1869,6 +1872,9 @@ export async function generarFactura(params) {
         pdf_url: null, // AFIP no proporciona PDF directamente
         xml_url: null, // Se puede generar el XML localmente
         hash: computeInvoiceHash(params),
+        environment: ARCA_ENVIRONMENT,
+        isProduction: isProduction,
+        warning: !isProduction ? 'Factura generada en HOMOLOGACIÓN - NO es válida fiscalmente' : null
       };
     }
 
@@ -2148,18 +2154,30 @@ export async function verificarConexion(tenantId = null) {
         ? `Certificado P12: ${credentials.p12Path}`
         : `Certificado: ${credentials.certPath}, Clave: ${credentials.keyPath}`;
 
+      // Determinar el ambiente actual
+      const isProduction = ARCA_ENVIRONMENT === 'produccion';
+      const environmentLabel = isProduction ? 'PRODUCCIÓN' : 'HOMOLOGACIÓN (pruebas)';
+      const wsaaUrl = WSAA_URL || WSAA_URLS[ARCA_ENVIRONMENT];
+      const wsfeUrl = WSFE_URL || WSFE_URLS[ARCA_ENVIRONMENT];
+
       return {
         ok: true,
         tenantCUIT: tenantCUIT,
         message: tenantCUIT
-          ? `✓ Configuración correcta. CUIT configurado: ${tenantCUIT}. ${certType} detectado. Listo para facturar.`
-          : `✓ Configuración correcta. ${certType} detectado. Configurá tu CUIT en Configuración > Contacto para facturar.`,
+          ? `✓ Configuración correcta. CUIT configurado: ${tenantCUIT}. ${certType} detectado. Ambiente: ${environmentLabel}. Listo para facturar.`
+          : `✓ Configuración correcta. ${certType} detectado. Ambiente: ${environmentLabel}. Configurá tu CUIT en Configuración > Contacto para facturar.`,
         configured: true,
         certificatesFound: true,
         certType: certType,
         certPath: credentials.p12Path || credentials.certPath,
         keyPath: credentials.keyPath,
-        p12Path: credentials.p12Path
+        p12Path: credentials.p12Path,
+        environment: ARCA_ENVIRONMENT,
+        isProduction: isProduction,
+        environmentLabel: environmentLabel,
+        wsaaUrl: wsaaUrl,
+        wsfeUrl: wsfeUrl,
+        warning: !isProduction ? 'ATENCIÓN: Estás en modo HOMOLOGACIÓN. Las facturas generadas NO son válidas fiscalmente. Para facturar en producción, configurá ARCA_ENVIRONMENT=produccion en el archivo .env del servidor y usá certificados de producción.' : null
       };
     } else {
       // Si no usa certificados, verificar API Key

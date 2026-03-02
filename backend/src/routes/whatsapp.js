@@ -1361,9 +1361,10 @@ async function sendAppointmentAlert({
 }
 
 // ============================================
-// GET /webhooks/whatsapp - Verificación
+// GET /webhooks/whatsapp - Verificación (Meta Developer Console)
+// También atendido como GET /whatsapp cuando el router se monta en /api/webhooks
 // ============================================
-whatsapp.get("/webhooks/whatsapp", async (req, res) => {
+async function handleWebhookVerify(req, res) {
   const certificateCheck = req.headers["x-hub-signature-256"];
   const clientCert = req.socket.getPeerCertificate?.();
 
@@ -1392,7 +1393,7 @@ whatsapp.get("/webhooks/whatsapp", async (req, res) => {
   try {
     // ✅ PRIORIDAD 1: Verificar token global (para todos los tenants)
     const globalVerifyToken = process.env.WHATSAPP_VERIFY_TOKEN || process.env.WA_VERIFY_TOKEN;
-    
+
     if (globalVerifyToken && token === globalVerifyToken) {
       console.log(`✅ [WA] Webhook verificado con token global (compartido para todos los tenants)`);
       return res.status(200).send(challenge);
@@ -1427,13 +1428,19 @@ whatsapp.get("/webhooks/whatsapp", async (req, res) => {
     console.error("[WA] Stack:", err.stack);
     return res.sendStatus(500);
   }
-});
+}
+
+whatsapp.get("/webhooks/whatsapp", handleWebhookVerify);
+whatsapp.get("/whatsapp", handleWebhookVerify);
 
 // ============================================
 // POST /webhooks/whatsapp - Mensajes entrantes
+// También atendido como POST /whatsapp cuando el router se monta en /api/webhooks
 // ============================================
-whatsapp.post("/webhooks/whatsapp", async (req, res) => {
+const handleWebhookPost = async (req, res) => {
   try {
+    // Log corto para confirmar que Meta está llegando al servidor (diagnóstico)
+    console.log("[WA] 📩 POST webhook recibido", req.body?.entry?.[0]?.changes?.[0]?.value?.metadata?.phone_number_id ? `(phone_number_id: ${req.body.entry[0].changes[0].value.metadata.phone_number_id})` : "");
     console.log("[WA] ↘️ Recibimos webhook:", JSON.stringify(req.body, null, 2));
     const msg = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
     if (!msg) {
@@ -6326,7 +6333,10 @@ whatsapp.post("/webhooks/whatsapp", async (req, res) => {
     // Siempre retornar 200 para que WhatsApp no reintente
     return res.sendStatus(200);
   }
-});
+};
+
+whatsapp.post("/webhooks/whatsapp", handleWebhookPost);
+whatsapp.post("/whatsapp", handleWebhookPost);
 
 // ============================================
 // GET /api/whatsapp/diagnostic - Diagnóstico del webhook
@@ -6508,8 +6518,9 @@ whatsapp.get("/diagnostic", async (req, res) => {
       },
       webhook: {
         url: `${process.env.API_URL || "https://backend-production-1042.up.railway.app"}/webhooks/whatsapp`,
-        verify_endpoint: "GET /webhooks/whatsapp",
-        message_endpoint: "POST /webhooks/whatsapp",
+        url_alternativa: `${process.env.API_URL || "https://backend-production-1042.up.railway.app"}/api/webhooks/whatsapp`,
+        verify_endpoint: "GET /webhooks/whatsapp o GET /api/webhooks/whatsapp",
+        message_endpoint: "POST /webhooks/whatsapp o POST /api/webhooks/whatsapp",
       },
       status: {
         can_send_messages: !!config.has_access_token && hasValidPhoneNumberId && config.is_active,

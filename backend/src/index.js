@@ -128,8 +128,9 @@ const RATE_LIMIT_MAX_REQUESTS = 300; // 300 requests por minuto por IP (aumentad
 function rateLimitMiddleware(req, res, next) {
   // Saltar rate limiting para health checks, webhooks y rutas de autenticación
   if (
-    req.path === '/api/health' || 
-    req.path.startsWith('/api/mp-webhook') || 
+    req.path === '/api/health' ||
+    req.path.startsWith('/webhooks/') ||
+    req.path.startsWith('/api/mp-webhook') ||
     req.path.startsWith('/api/webhooks/') ||
     req.path.startsWith('/auth/google') ||
     req.path.startsWith('/auth/')
@@ -275,8 +276,8 @@ verifyDatabaseConnection();
 
 // Middleware para rutas que requieren BD (excepto health check)
 app.use((req, res, next) => {
-  // Health check y webhooks no requieren verificación de BD
-  if (req.path === '/api/health' || req.path.startsWith('/api/mp-webhook') || req.path.startsWith('/api/webhooks/')) {
+  // Health check y webhooks no requieren verificación de BD (Meta llama a /webhooks/whatsapp)
+  if (req.path === '/api/health' || req.path.startsWith('/webhooks/') || req.path.startsWith('/api/mp-webhook') || req.path.startsWith('/api/webhooks/')) {
     return next();
   }
   
@@ -301,6 +302,8 @@ app.use("/api/health", health);
 app.use("/api/mp-webhook", mpWebhook);
 app.use("/api/webhooks/mp", mpWebhook);
 app.use("/", whatsapp);
+// Ruta alternativa para webhook de WhatsApp (por si en Meta configuraron /api/webhooks/whatsapp)
+app.use("/api/webhooks", whatsapp);
 app.use("/api/whatsapp", whatsapp);
 app.use("/auth", auth);
 app.use("/auth/google", googleOAuth);

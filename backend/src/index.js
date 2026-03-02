@@ -204,6 +204,7 @@ function isOriginAllowed(origin) {
     const allowedPatterns = [
         /^https?:\/\/.*\.vercel\.app$/,
         /^https?:\/\/.*\.netlify\.app$/,
+        /^https:\/\/(www\.)?arjaerp\.com\.ar$/,
     ];
     
     return allowedPatterns.some(pattern => pattern.test(origin));

@@ -416,10 +416,12 @@ export default function LoginPage() {
                           if (me?.ok) {
                             goAfterLogin(me);
                           } else {
-                            toast.error("Could not get current session");
+                            await logout();
+                            toast.info("La sesión expiró. Iniciá sesión de nuevo.");
                           }
                         } catch {
-                          toast.error("Could not get current session");
+                          await logout();
+                          toast.info("La sesión expiró. Iniciá sesión de nuevo.");
                         }
                       }}
                       className="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-hover transition"

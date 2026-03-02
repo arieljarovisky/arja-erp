@@ -48,19 +48,25 @@ export function AuthProvider({ children }) {
               } else {
                 setUser(null);
                 setTenant(null);
+                setAccessToken(null);
               }
             } else {
               setUser(null);
               setTenant(null);
+              setAccessToken(null);
             }
           } catch {
             setUser(null);
             setTenant(null);
+            setAccessToken(null);
           }
         }
       } catch (err) {
         logger.error("[AuthContext] Error inicializando sesión:", err);
-        // No limpiar token ante errores transitorios
+        // Sesión inválida o expirada (ej. PC apagada sin cerrar sesión): limpiar para permitir login de nuevo
+        setUser(null);
+        setTenant(null);
+        setAccessToken(null);
       } finally {
         setAuthLoaded(true);
       }

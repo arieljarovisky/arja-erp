@@ -357,7 +357,7 @@ app.get("/api/config/whatsapp/callback", async (req, res) => {
         }
       }
       
-      const baseUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+      const baseUrl = process.env.FRONTEND_URL_HTTPS || process.env.FRONTEND_URL || "http://localhost:5173";
       const path = tenantSlug ? `/${tenantSlug}/admin/config` : `/admin/config`;
       const params = error 
         ? `?tab=whatsapp&error=${encodeURIComponent(error)}`
@@ -419,7 +419,7 @@ app.get("/api/config/whatsapp/callback", async (req, res) => {
         }
       }
       
-      const baseUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+      const baseUrl = process.env.FRONTEND_URL_HTTPS || process.env.FRONTEND_URL || "http://localhost:5173";
       const path = tenantSlug ? `/${tenantSlug}/admin/config` : `/admin/config`;
       const params = error 
         ? `?tab=whatsapp&error=${encodeURIComponent(error)}`
@@ -745,7 +745,7 @@ app.get("/api/config/whatsapp/callback", async (req, res) => {
   } catch (e) {
     console.error("[GET /api/config/whatsapp/callback] error:", e);
     // Intentar obtener tenantId para construir URL correcta incluso en caso de error
-    let errorRedirectUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/admin/config?tab=whatsapp&error=${encodeURIComponent(e.message)}`;
+    let errorRedirectUrl = `${process.env.FRONTEND_URL_HTTPS || process.env.FRONTEND_URL || "http://localhost:5173"}/admin/config?tab=whatsapp&error=${encodeURIComponent(e.message)}`;
     
     try {
       const stateData = req.query.state ? JSON.parse(Buffer.from(String(req.query.state).replace(/-/g, "+").replace(/_/g, "/"), "base64").toString()) : null;
@@ -754,7 +754,7 @@ app.get("/api/config/whatsapp/callback", async (req, res) => {
         const [[tenant]] = await pool.query("SELECT subdomain FROM tenant WHERE id = ? LIMIT 1", [tenantId]);
         const tenantSlug = tenant?.subdomain || "";
         if (tenantSlug) {
-          errorRedirectUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/${tenantSlug}/admin/config?tab=whatsapp&error=${encodeURIComponent(e.message)}`;
+          errorRedirectUrl = `${process.env.FRONTEND_URL_HTTPS || process.env.FRONTEND_URL || "http://localhost:5173"}/${tenantSlug}/admin/config?tab=whatsapp&error=${encodeURIComponent(e.message)}`;
         }
       }
     } catch (err) {
